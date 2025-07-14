@@ -1,7 +1,8 @@
+import GuidesPage from "@/pages/GuidesPage";
 import React from "react";
 
 const page = () => {
-  return <div>Guides</div>;
+  return <GuidesPage />;
 };
 
 export default page;
