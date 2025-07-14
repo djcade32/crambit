@@ -1,0 +1,31 @@
+name: Cypress Test
+
+on:
+    pull_request:
+      branches: 
+        - develop
+      types:
+        - opened
+        - synchronize  
+       
+jobs:
+    ci:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout Code
+          uses: actions/checkout@v3
+
+        - name: Install Dependencies
+          run: npm install
+
+        - name: Run Cypress Test
+          run: npm run cy:headless:github
+            
+
+        - name: Upload Cypress Screenshots
+          if: failure()
+          uses: actions/upload-artifact@v4
+          with:
+            name: cypress-screenshots
+            path: cypress/screenshots
+  
