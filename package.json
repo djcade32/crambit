@@ -8,13 +8,15 @@
     "start": "next start",
     "lint": "next lint",
     "cy": "cypress open",
-    "cy:headless": "cypress run --headless"
+    "cy:headless": "cypress run --headless",
+    "cy:headless:github": "start-server-and-test dev http://localhost:3000 cy:headless"
   },
   "dependencies": {
     "cypress-real-events": "^1.14.0",
     "next": "15.3.5",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "start-server-and-test": "^2.0.12",
     "tw-animate-css": "^1.3.5"
   },
   "devDependencies": {
