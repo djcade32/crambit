@@ -19,7 +19,7 @@
   --font-sans: var(--font-poppins);
 }
 
-@media (prefers-color-scheme: light) {
+@media (prefers-color-scheme: dark) {
   :root {
     --color-background: var(--black);
     --color-foreground: var(--white);
