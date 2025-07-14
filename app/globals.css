@@ -19,7 +19,7 @@
   --font-sans: var(--font-poppins);
 }
 
-@media (prefers-color-scheme: light) {
+@media (prefers-color-scheme: dark) {
   :root {
     --color-background: var(--black);
     --color-foreground: var(--white);
@@ -31,4 +31,23 @@ body {
   background: var(--color-background);
   color: var(--color-foreground);
   font-family: Poppins, Helvetica, sans-serif;
+  font-size: 16px;
+}
+
+@layer base {
+  html {
+    @apply flex flex-col min-h-screen;
+  }
+
+  /* h1 {
+    @apply text-4xl font-bold;
+  }
+
+  h2 {
+    @apply text-3xl font-semibold;
+  }
+
+  h3 {
+    @apply text-2xl font-semibold;
+  } */
 }
