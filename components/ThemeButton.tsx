@@ -2,7 +2,6 @@
 
 import React from "react";
 import { Moon, Sun } from "lucide-react";
-import { useState } from "react";
 import { useTheme } from "@/providers/ThemeProvider";
 
 const ThemeButton = () => {

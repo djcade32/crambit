@@ -5,9 +5,17 @@ import Image from "next/image";
 import Button from "./general/Button";
 import ThemeButton from "./ThemeButton";
 import { useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
+
+const MAIN_NAVLINKS = [
+  { label: "Home", path: "/" },
+  { label: "Study", path: "/study" },
+  { label: "Guides", path: "/guides" },
+];
 
 const Navbar = () => {
   const router = useRouter();
+  const pathname = usePathname();
 
   // Function to handle navigation
   const handleNavigation = (path: string) => {
@@ -15,6 +23,7 @@ const Navbar = () => {
   };
 
   const SIGNED_IN = false; // This should be replaced with actual authentication logic
+
   return (
     <nav className="h-[70px] flex justify-between items-center px-7 border-b border-(--neutral-gray)">
       <Image
@@ -33,23 +42,29 @@ const Navbar = () => {
         className="block dark:hidden cursor-pointer"
         onClick={() => handleNavigation("/")}
       />
-      <ul className="flex space-x-9 items-center">
-        <li className="nav-link" onClick={() => handleNavigation("/")}>
-          Home
-        </li>
-        <li className="nav-link" onClick={() => handleNavigation("/study")}>
-          Study
-        </li>
-        <li className="nav-link" onClick={() => handleNavigation("/guides")}>
-          Guides
-        </li>
+      <ul className="flex space-x-5 items-center">
+        {MAIN_NAVLINKS.map((link) => (
+          <li
+            key={link.label}
+            className={`nav-link ${pathname === link.path ? "active" : ""}`}
+            onClick={() => handleNavigation(link.path)}
+          >
+            {link.label}
+          </li>
+        ))}
         {SIGNED_IN ? (
-          <li className="nav-link" onClick={() => handleNavigation("/profile")}>
+          <li
+            className={`nav-link ${pathname === "/profile" ? "active" : ""}`}
+            onClick={() => handleNavigation("/profile")}
+          >
             Profile
           </li>
         ) : (
           <>
-            <li className="nav-link" onClick={() => handleNavigation("/login")}>
+            <li
+              className={`nav-link ${pathname === "/login" ? "active" : ""}`}
+              onClick={() => handleNavigation("/login")}
+            >
               Login
             </li>
             <li>
