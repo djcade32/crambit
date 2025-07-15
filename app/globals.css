@@ -1,7 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-/* @custom-variant dark (&:is(.dark *)); */
+@custom-variant dark (&:is(.dark *));
 
 :root {
   --white: #f9fafb;
@@ -19,6 +19,12 @@
     --color-foreground: var(--white);
     --font-sans: var(--font-poppins);
   }
+}
+
+.light {
+  --color-background: var(--white);
+  --color-foreground: var(--black);
+  --font-sans: var(--font-poppins);
 }
 
 .dark {
@@ -54,7 +60,11 @@ body {
 
 @layer components {
   .nav-link {
-    @apply text-(--black) dark:text-(--white) dark:hover:text-(--white)/30 hover:text-(--black)/30 transition-colors duration-200 cursor-pointer;
+    @apply w-[75px] flex items-center justify-center text-(--black) dark:text-(--white) dark:hover:text-(--white)/30 hover:text-(--black)/30 transition-colors duration-200 cursor-pointer;
+  }
+
+  .nav-link.active {
+    @apply font-semibold;
   }
 
   .button-primary {
