@@ -1,7 +1,8 @@
+import StudyPage from "@/pages/StudyPage";
 import React from "react";
 
 const page = () => {
-  return <div>Study</div>;
+  return <StudyPage />;
 };
 
 export default page;
