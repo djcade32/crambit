@@ -10,7 +10,7 @@ const HeroSection = () => {
         <h1 className="font-extrabold text-3xl p-8">
           Master Software Engineering, One Question at a Time
         </h1>
-        <p className="text-l w-170 mx-60">
+        <p className="w-170 mx-60">
           Build your own study guides or practice with hand-picked coding questions covering
           algorithms, system design, front-end, and more.
         </p>
