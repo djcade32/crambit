@@ -52,6 +52,15 @@ body {
   .page-container {
     @apply h-[calc(100%-70px)] flex flex-col p-4;
   }
+
+  h2 {
+    @apply text-3xl font-semibold;
+  }
+
+  h3 {
+    @apply text-2xl font-semibold;
+  } */
+   
 }
 
 @layer components {
