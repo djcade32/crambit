@@ -25,7 +25,7 @@ const Navbar = () => {
   const SIGNED_IN = false; // This should be replaced with actual authentication logic
 
   return (
-    <nav className="h-[70px] flex justify-between items-center px-7 border-b border-(--neutral-gray)">
+    <nav className="min-h-[70px] flex justify-between items-center px-7 border-b border-(--neutral-gray)">
       <Image
         src="/logos/crambit_white_logo.png"
         alt="Crambit Logo"
