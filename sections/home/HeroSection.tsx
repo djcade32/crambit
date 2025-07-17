@@ -1,7 +1,7 @@
 "use client";
 
+import Button from "@/components/general/Button";
 import React from "react";
-import Button from "./general/Button";
 
 const HeroSection = () => {
   return (

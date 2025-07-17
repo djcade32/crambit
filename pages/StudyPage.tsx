@@ -1,7 +1,7 @@
 import React from "react";
 
 const StudyPage = () => {
-  return <div>StudyPage</div>;
+  return <div className="page-container">StudyPage</div>;
 };
 
 export default StudyPage;
