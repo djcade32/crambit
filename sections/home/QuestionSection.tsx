@@ -78,7 +78,7 @@ const DUMMY_DATA = [
 
 const QuestionSection = () => {
   return (
-    <div className="flex flex-col items-center mt-10 flex-1 overflow-y-scroll">
+    <div className="flex flex-col items-center mt-10 flex-1 overflow-y-scroll pb-4">
       <QuestionsAccordion questions={DUMMY_DATA} />
     </div>
   );
