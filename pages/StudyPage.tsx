@@ -92,7 +92,6 @@ const StudyPage = () => {
             title={guide.title}
             questionsCount={guide.questionsCount}
             lastUpdated={guide.lastUpdated}
-            createGuide
           />
         ))}
       </div>
