@@ -45,7 +45,6 @@ const QuestionsAccordionItem = ({ question, answer, topics }: QuestionsAccordion
         border-1 border-(--neutral-gray) rounded-[5px]
         shadow-md
         group dark:bg-(--neutral-gray) justify-center hover:border-(--accent) relative
-        animate-accordion-down
       `}
     >
       <Ellipsis
