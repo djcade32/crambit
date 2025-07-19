@@ -5,8 +5,10 @@ import Button from "./general/Button";
 import { Trash } from "lucide-react";
 import { Pencil } from "lucide-react";
 import { Eye } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 interface StudyGuideProps {
+  id: string;
   title: string;
   questionsCount: number;
   lastUpdated: string;
@@ -14,11 +16,18 @@ interface StudyGuideProps {
 }
 
 const StudyGuide = ({
+  id,
   title,
   questionsCount,
   lastUpdated,
   createGuide = false,
 }: StudyGuideProps) => {
+  const router = useRouter();
+
+  const handleStartClick = () => {
+    router.push(`/study/${id}`);
+  };
+
   return (
     <div
       className={`
@@ -69,7 +78,7 @@ const StudyGuide = ({
             <p className="text-(--dark-gray)">{lastUpdated}</p>
             <Button
               label="Start"
-              onClick={() => "clicked start quiz"}
+              onClick={handleStartClick}
               className="
             bg-white
             border-1 border-(--neutral-gray)

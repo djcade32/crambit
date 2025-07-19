@@ -1,7 +1,7 @@
 "use client";
 
-import React from "react";
 import { cn } from "@/lib/utils";
+import React from "react";
 
 interface ButtonProps {
   label: string;
@@ -9,6 +9,9 @@ interface ButtonProps {
   disabled?: boolean;
   variant?: "primary" | "secondary" | "success" | "danger";
   className?: string; // Optional prop for additional classes
+  preIcon?: React.ReactNode; // Optional prop for pre-icon
+  postIcon?: React.ReactNode; // Optional prop for post-icon
+  dataTestid?: string; // Optional prop for testing purposes
 }
 
 const Button = ({
@@ -17,6 +20,9 @@ const Button = ({
   disabled = false,
   variant = "primary",
   className,
+  preIcon,
+  postIcon,
+  dataTestid,
 }: ButtonProps) => {
   // Function to determine button classes based on variant
   const getButtonClasses = () => {
@@ -56,16 +62,14 @@ const Button = ({
 
   return (
     <button
-      className={getButtonClasses()}
-      // className={cn(
-      //   disabled ? "button-disabled" : getButtonClasses(),
-      //   className,
-      //   `${buttonColor ? `bg-${buttonColor}` : ""} ${textColor ? `text-${textColor}` : ""}`
-      // )}
+      data-testid={dataTestid}
+      className={cn(getButtonClasses(), (preIcon || postIcon) && "flex")}
       onClick={handleClick}
       disabled={disabled}
     >
+      {preIcon && <span className="mr-2.5">{preIcon}</span>}
       {label}
+      {postIcon && <span className="ml-2.5">{postIcon}</span>}
     </button>
   );
 };
