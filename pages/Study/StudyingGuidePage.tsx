@@ -16,17 +16,38 @@ const StudyingGuidePage = () => {
   const [questions, setQuestions] = useState<Question[]>(DUMMY_QUESTIONS);
   const [questionIndex, setQuestionIndex] = useState(0);
   const [currentQuestion, setCurrentQuestion] = useState<Question | null>(null);
+  const [showAnswer, setShowAnswer] = useState(false);
 
   useEffect(() => {
     if (!id) {
       navigate.push("/study");
     }
+    const title = DUMMY_STUDY_GUIDES.find((guide) => guide.id === id)?.title;
+    if (!title) return navigate.push("/study");
     // Simulate fetching the study guide details based on the ID
-    setTitle(DUMMY_STUDY_GUIDES.find((guide) => guide.id === id)?.title || "Study Guide");
+    setTitle(title);
     setQuestions(DUMMY_QUESTIONS);
     setQuestionsCount(DUMMY_QUESTIONS.length);
     setCurrentQuestion(DUMMY_QUESTIONS[0]);
   }, [id]);
+
+  const goToNextQuestion = () => {
+    const nextIndex = questionIndex < DUMMY_QUESTIONS.length - 1 ? questionIndex + 1 : 0;
+    setQuestionIndex(nextIndex);
+    setCurrentQuestion(questions[nextIndex]);
+    setShowAnswer(false);
+  };
+
+  const goToPrevQuestion = () => {
+    const prevIndex = questionIndex > 0 ? questionIndex - 1 : DUMMY_QUESTIONS.length - 1;
+    setQuestionIndex(prevIndex);
+    setCurrentQuestion(questions[prevIndex]);
+    setShowAnswer(false);
+  };
+
+  const toggleAnswer = () => {
+    setShowAnswer((prev) => !prev);
+  };
 
   return (
     <div className="page-container relative">
@@ -63,8 +84,17 @@ const StudyingGuidePage = () => {
               "
             >
               <p className="text-2xl">{currentQuestion.question}</p>
-              <Button label="Show answer" onClick={() => "Show answer"} variant="secondary" />
+              <Button
+                label={showAnswer ? "Hide answer" : "Show answer"}
+                onClick={toggleAnswer}
+                variant="secondary"
+              />
             </div>
+            {showAnswer && (
+              <div className="rounded-[5px] bg-white dark:bg-(--neutral-gray) w-[80%] p-6 mt-11 max-h-[400px] overflow-y-scroll border-1 border-(--neutral-gray)">
+                <p>{currentQuestion.answer}</p>
+              </div>
+            )}
           </div>
           <div
             className="
@@ -77,12 +107,7 @@ const StudyingGuidePage = () => {
           >
             <Button
               label="Prev"
-              onClick={() => {
-                const prevIndex =
-                  questionIndex > 0 ? questionIndex - 1 : DUMMY_QUESTIONS.length - 1;
-                setQuestionIndex(prevIndex);
-                setCurrentQuestion(questions[prevIndex]);
-              }}
+              onClick={goToPrevQuestion}
               preIcon={<MoveLeft />}
               className="
                 text-(--white)
@@ -90,15 +115,7 @@ const StudyingGuidePage = () => {
                 hover:bg-(--dark-gray)/80
               "
             />
-            <Button
-              label="Next"
-              onClick={() => {
-                const nextIndex = questionIndex < DUMMY_QUESTIONS.length ? questionIndex + 1 : 1;
-                setQuestionIndex(nextIndex);
-                setCurrentQuestion(questions[nextIndex]);
-              }}
-              postIcon={<MoveRight />}
-            />
+            <Button label="Next" onClick={goToNextQuestion} postIcon={<MoveRight />} />
           </div>
         </>
       )}
