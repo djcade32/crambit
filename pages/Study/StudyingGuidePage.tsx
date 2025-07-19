@@ -103,19 +103,32 @@ const StudyingGuidePage = () => {
               py-3.5 px-7
               border-t-1 border-(--neutral-gray)
               absolute bottom-0 justify-between items-center
-            "
+             "
           >
             <Button
-              label="Prev"
-              onClick={goToPrevQuestion}
-              preIcon={<MoveLeft />}
+              label="Exit"
+              onClick={() => navigate.push("/study")}
               className="
                 text-(--white)
                 bg-(--dark-gray)
                 hover:bg-(--dark-gray)/80
               "
             />
-            <Button label="Next" onClick={goToNextQuestion} postIcon={<MoveRight />} />
+            <div className="flex items-center gap-5">
+              {questionIndex !== 0 && (
+                <Button
+                  label="Prev"
+                  onClick={goToPrevQuestion}
+                  preIcon={<MoveLeft />}
+                  className="
+                text-(--white)
+                bg-(--dark-gray)
+                hover:bg-(--dark-gray)/80
+              "
+                />
+              )}
+              <Button label="Next" onClick={goToNextQuestion} postIcon={<MoveRight />} />
+            </div>
           </div>
         </>
       )}
