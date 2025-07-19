@@ -61,6 +61,7 @@ const StudyingGuidePage = () => {
             "
           >
             <h1
+              data-testid="study-guide-title"
               className="
                 text-3xl text-(--dark-gray) font-semibold
               "
@@ -78,6 +79,7 @@ const StudyingGuidePage = () => {
             "
           >
             <div
+              data-testid="question-section"
               className="
                 flex flex-col
                 items-center justify-center gap-7
@@ -85,13 +87,17 @@ const StudyingGuidePage = () => {
             >
               <p className="text-2xl">{currentQuestion.question}</p>
               <Button
+                dataTestid="show-answer-button"
                 label={showAnswer ? "Hide answer" : "Show answer"}
                 onClick={toggleAnswer}
                 variant="secondary"
               />
             </div>
             {showAnswer && (
-              <div className="rounded-[5px] bg-white dark:bg-(--neutral-gray) w-[80%] p-6 mt-11 max-h-[400px] overflow-y-scroll border-1 border-(--neutral-gray)">
+              <div
+                data-testid="answer-section"
+                className="rounded-[5px] bg-white dark:bg-(--neutral-gray) w-[80%] p-6 mt-11 max-h-[400px] overflow-y-scroll border-1 border-(--neutral-gray)"
+              >
                 <p>{currentQuestion.answer}</p>
               </div>
             )}
@@ -106,6 +112,7 @@ const StudyingGuidePage = () => {
              "
           >
             <Button
+              dataTestid="exit-button"
               label="Exit"
               onClick={() => navigate.push("/study")}
               className="
@@ -117,6 +124,7 @@ const StudyingGuidePage = () => {
             <div className="flex items-center gap-5">
               {questionIndex !== 0 && (
                 <Button
+                  dataTestid="prev-button"
                   label="Prev"
                   onClick={goToPrevQuestion}
                   preIcon={<MoveLeft />}
@@ -127,7 +135,12 @@ const StudyingGuidePage = () => {
               "
                 />
               )}
-              <Button label="Next" onClick={goToNextQuestion} postIcon={<MoveRight />} />
+              <Button
+                dataTestid="next-button"
+                label="Next"
+                onClick={goToNextQuestion}
+                postIcon={<MoveRight />}
+              />
             </div>
           </div>
         </>

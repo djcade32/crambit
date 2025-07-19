@@ -11,6 +11,7 @@ interface ButtonProps {
   className?: string; // Optional prop for additional classes
   preIcon?: React.ReactNode; // Optional prop for pre-icon
   postIcon?: React.ReactNode; // Optional prop for post-icon
+  dataTestid?: string; // Optional prop for testing purposes
 }
 
 const Button = ({
@@ -21,6 +22,7 @@ const Button = ({
   className,
   preIcon,
   postIcon,
+  dataTestid,
 }: ButtonProps) => {
   // Function to determine button classes based on variant
   const getButtonClasses = () => {
@@ -60,6 +62,7 @@ const Button = ({
 
   return (
     <button
+      data-testid={dataTestid}
       className={cn(getButtonClasses(), (preIcon || postIcon) && "flex")}
       onClick={handleClick}
       disabled={disabled}
