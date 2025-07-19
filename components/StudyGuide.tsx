@@ -82,7 +82,7 @@ const StudyGuide = ({
               className="
             bg-white
             border-1 border-(--neutral-gray)
-            dark:bg-transparent dark:hover:bg-(--success) hover:bg-(--success)
+            dark:bg-transparent dark:hover:bg-(--success) hover:bg-(--success) hover:text-(--white)
           "
             />
           </>
