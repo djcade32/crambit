@@ -21,14 +21,14 @@ const CheckMark = ({ onClick, disabled = false }: CheckMarkProps) => {
       onClick={handleClick}
       className={cn(
         checked ? "bg-(--success)" : "bg-(--white)",
-        "flex items-center justify-center border-1 border-(--neutral-gray) rounded-[5px] p-.5 cursor-pointer transition-colors duration-100",
+        "flex items-center justify-center border-1 border-(--neutral-gray) rounded-[5px]  cursor-pointer transition-colors duration-100",
         disabled && "bg-(--dark-gray) cursor-default"
       )}
     >
       {disabled ? (
-        <Minus color="var(--white)" />
+        <Minus color="var(--white)" size={20} />
       ) : (
-        <Check color={checked ? "var(--white)" : "transparent"} />
+        <Check color={checked ? "var(--white)" : "transparent"} size={20} />
       )}
     </button>
   );

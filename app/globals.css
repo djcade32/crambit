@@ -9,6 +9,7 @@
   --accent: #1e7eff;
   --dark-gray: #6b7280;
   --neutral-gray: hsl(220, 9%, 46%, 20%);
+  --light-gray: color-mix(in oklab, var(--neutral-gray) 60%, transparent);
   --success: #10b981;
   --danger: #ff5c5e;
 }
@@ -90,5 +91,9 @@ body {
 
   .button-disabled {
     @apply bg-(--neutral-gray) text-(--black) dark:bg-(--dark-gray) dark:text-(--white) cursor-not-allowed opacity-50;
+  }
+
+  .input-field {
+    @apply w-full rounded-[5px] bg-(--white) dark:bg-(--neutral-gray) text-(--black) dark:text-(--white) focus:outline-none focus:ring-2 focus:ring-(--accent) transition-colors duration-200;
   }
 }
