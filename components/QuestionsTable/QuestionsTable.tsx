@@ -4,6 +4,9 @@ import React, { useEffect, useState } from "react";
 import CheckMark from "../general/CheckMark";
 import { Search, ListFilter } from "lucide-react";
 import Select from "../general/Select";
+import { DUMMY_QUESTIONS } from "@/data/dummyData";
+import QuestionsTableItem from "./QuestionsTableItem";
+import { Question } from "@/types/general";
 
 const SELECT_OPTIONS = [
   "React",
@@ -30,6 +33,9 @@ const SELECT_OPTIONS = [
 
 const QuestionsTable = () => {
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredQuestions, setFilteredQuestions] = useState(DUMMY_QUESTIONS);
+  const [selectedQuestions, setSelectedQuestions] = useState<Question[]>([]);
 
   useEffect(() => {
     // Initialize selected tags if needed
@@ -38,9 +44,9 @@ const QuestionsTable = () => {
 
   return (
     <div className="flex flex-col dark:bg-(--neutral-gray) bg-white rounded-[5px] border-1 border-(--neutral-gray) w-[80%] h-[500px] ">
-      <div className="flex items-center gap-5 border-b-1 border-b-(--neutral-gray) p-3.5 ">
+      <div className="flex items-center gap-5 border-b-1 border-b-(--neutral-gray) p-3.5 border-1 border-red-500">
         <div>
-          <CheckMark onClick={() => console.log("clicked")} />
+          <CheckMark onClick={() => console.log("clicked")} disabled={!selectedQuestions.length} />
         </div>
         <div className="w-[1px] h-[40px] bg-(--neutral-gray)" />
         <div className="flex items-center gap-2 flex-1 min-w-[200px]">
@@ -57,7 +63,17 @@ const QuestionsTable = () => {
           <Select options={SELECT_OPTIONS} value={selectedTags} setValues={setSelectedTags} />
         </div>
       </div>
-      <div></div>
+
+      <div className="flex flex-col h-full overflow-y-auto">
+        {DUMMY_QUESTIONS.map((question, index) => (
+          <div key={question.id} className="flex flex-col">
+            <QuestionsTableItem question={question} />
+            {index !== DUMMY_QUESTIONS.length - 1 && (
+              <div className="w-full h-[1px] bg-(--neutral-gray)" />
+            )}
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

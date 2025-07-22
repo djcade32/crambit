@@ -2,9 +2,7 @@
 
 import React from "react";
 import Button from "./general/Button";
-import { Trash } from "lucide-react";
-import { Pencil } from "lucide-react";
-import { Eye } from "lucide-react";
+import { Trash, Pencil, Eye } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 interface StudyGuideProps {
