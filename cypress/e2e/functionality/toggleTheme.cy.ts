@@ -1,3 +1,6 @@
+const COLOR_BLACK = "rgb(14, 17, 22)";
+const COLOR_WHITE = "rgb(249, 250, 251)";
+
 describe("Toggle Theme", () => {
   beforeEach(() => {
     cy.visit("/");
@@ -7,6 +10,13 @@ describe("Toggle Theme", () => {
       localStorage.setItem("theme", "light");
     });
     cy.wait(1000); // Wait for the page to load completely
+  });
+
+  after(() => {
+    // Clean up localStorage after tests
+    cy.document().then(() => {
+      localStorage.removeItem("theme");
+    });
   });
 
   describe("Theme Button", () => {
@@ -35,16 +45,16 @@ describe("Toggle Theme", () => {
     it("changes background and text color on theme toggle", () => {
       // Check initial background color for light theme
       cy.get("html").should("not.have.class", "dark");
-      cy.get("body").should("have.css", "background-color", "rgb(249, 250, 251)");
-      cy.contains("Home").should("have.css", "color", "rgb(23, 23, 23)");
+      cy.get("body").should("have.css", "background-color", COLOR_WHITE);
+      cy.contains("Home").should("have.css", "color", COLOR_BLACK);
 
       // Click the theme button to toggle to dark theme
       cy.get('[data-testid="theme-button"]').click();
 
       // Check background color for dark theme
       cy.get("html").should("have.class", "dark");
-      cy.get("body").should("have.css", "background-color", "rgb(23, 23, 23)");
-      cy.contains("Home").should("have.css", "color", "rgb(249, 250, 251)");
+      cy.get("body").should("have.css", "background-color", COLOR_BLACK);
+      cy.contains("Home").should("have.css", "color", COLOR_WHITE);
     });
   });
 });
