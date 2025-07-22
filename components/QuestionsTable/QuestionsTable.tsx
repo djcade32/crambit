@@ -44,7 +44,7 @@ const QuestionsTable = () => {
 
   return (
     <div className="flex flex-col dark:bg-(--neutral-gray) bg-white rounded-[5px] border-1 border-(--neutral-gray) w-[80%] h-[500px] ">
-      <div className="flex items-center gap-5 border-b-1 border-b-(--neutral-gray) p-3.5 border-1 border-red-500">
+      <div className="flex items-center gap-5 border-b-1 border-b-(--neutral-gray) p-3.5">
         <div>
           <CheckMark onClick={() => console.log("clicked")} disabled={!selectedQuestions.length} />
         </div>

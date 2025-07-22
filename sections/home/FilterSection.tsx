@@ -2,12 +2,12 @@
 
 import React from "react";
 import Input from "@/components/general/Input";
-import SelectChip from "@/components/general/SelectChip";
+import SelectChip from "@/components/general/SelectDropdown";
 
 const Filter = () => {
   return (
     <div className="p-10">
-      <div className="flex justify-around h-11">
+      <div className="flex justify-center gap-10 h-11">
         <Input />
         <SelectChip />
         {/* <select className="w-60 border-2 rounded-md pl-2">

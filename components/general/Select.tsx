@@ -28,6 +28,7 @@ interface SelectProps extends BaseSelectProps {
   options: string[];
   value?: string[];
   setValues?: (values: string[]) => void;
+  width?: number;
 }
 
 const Select = (props: SelectProps) => {
@@ -65,6 +66,7 @@ const Select = (props: SelectProps) => {
             display: "flex",
             gap: 0.5,
             overflowX: "scroll",
+            maxWidth: 300,
           }}
         >
           {selected.length === 0 && (
@@ -88,7 +90,8 @@ const Select = (props: SelectProps) => {
       )}
       MenuProps={MenuProps}
       sx={{
-        maxWidth: 300,
+        width:"100%",
+        // maxWidth: props.width || 300, 
         "& .MuiOutlinedInput-notchedOutline": {
           border: "none",
         },
