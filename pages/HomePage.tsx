@@ -1,7 +1,7 @@
 import React from "react";
 import QuestionSection from "@/sections/home/QuestionSection";
 import HeroSection from "@/sections/home/HeroSection";
-import Filter from "@/components/Filter";
+import Filter from "@/sections/home/FilterSection";
 
 const HomePage = () => {
   return (
