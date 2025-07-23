@@ -1,7 +1,7 @@
 import { useState } from "react";
 import * as React from "react";
 import { SelectChangeEvent } from "@mui/material/Select";
-import Select from "./Select";
+import Select from "../general/Select";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -61,35 +61,4 @@ export default function SelectDropdown() {
       />
     </div>
   );
-}
-
-{
-  /* <FormControl sx={{ m: 1, width: 300 }}>
-  <InputLabel id="demo-multiple-chip-label">Filter By Topics</InputLabel>
-  <Select
-    labelId="demo-multiple-chip-label"
-    id="demo-multiple-chip"
-    multiple
-    value={topic}
-    onChange={handleChange}
-    input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
-    renderValue={(selected) => (
-      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-        {selected.map((value) => (
-          <Chip key={value} label={value} />
-        ))}
-      </Box>
-    )}
-    MenuProps={MenuProps}
-  >
-    {names.map((name) => (
-      <MenuItem
-        key={name}
-        value={name}
-      >
-        {name}
-      </MenuItem>
-    ))}
-  </Select>
-</FormControl> */
 }
