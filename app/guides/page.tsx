@@ -1,4 +1,4 @@
-import GuidesPage from "@/pages/GuidesPage";
+import GuidesPage from "@/pages/Guides/GuidesPage";
 import React from "react";
 
 const page = () => {

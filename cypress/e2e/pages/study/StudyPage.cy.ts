@@ -1,4 +1,4 @@
-describe("Test Studying Guide View", () => {
+describe("Test Studying Page", () => {
   before(() => {
     cy.visit("/study");
     cy.wait(1000); // Wait for the page to load completely
