@@ -1,5 +1,5 @@
 import React from "react";
-import StudyingGuidePage from "@/pages/study/StudyingGuidePage";
+import StudyingGuidePage from "@/pages/Study/StudyingGuidePage";
 
 const page = () => {
   return <StudyingGuidePage />;

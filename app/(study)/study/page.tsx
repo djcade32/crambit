@@ -1,4 +1,4 @@
-import StudyPage from "@/pages/study/StudyPage";
+import StudyPage from "@/pages/Study/StudyPage";
 import React from "react";
 
 const page = () => {
