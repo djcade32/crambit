@@ -55,8 +55,7 @@ const Select = (props: SelectProps) => {
     <SelectMUI
       className="h-[40px] p-2"
       displayEmpty
-      labelId="demo-multiple-chip-label"
-      id="demo-multiple-chip"
+      id="topics-multiple-chip"
       multiple
       value={selectedValues}
       onChange={(e: any) => handleChange(e)}
@@ -90,8 +89,8 @@ const Select = (props: SelectProps) => {
       )}
       MenuProps={MenuProps}
       sx={{
-        width:"100%",
-        // maxWidth: props.width || 300, 
+        width: "100%",
+        // maxWidth: props.width || 300,
         "& .MuiOutlinedInput-notchedOutline": {
           border: "none",
         },
