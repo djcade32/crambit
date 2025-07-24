@@ -13,6 +13,7 @@ interface MenuItemProps {
   label: string;
   onClick: (event: React.MouseEvent<HTMLLIElement>) => void;
   color?: string; // Optional color prop for the menu item
+  bgColor?: string; // Optional background color prop for the menu item
 }
 
 const ContextMenu = ({ anchorEl, onClose, menuItems, open }: ContextMenuProps) => {
@@ -42,7 +43,7 @@ const ContextMenu = ({ anchorEl, onClose, menuItems, open }: ContextMenuProps) =
           onClick={item.onClick}
           sx={{
             color: item?.color || "var(--black)",
-            "&:hover": { backgroundColor: "var(--neutral-gray)" },
+            "&:hover": { backgroundColor: item?.bgColor || "var(--neutral-gray)" },
           }}
         >
           {item.label}
