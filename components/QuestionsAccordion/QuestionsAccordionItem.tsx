@@ -63,7 +63,12 @@ const QuestionsAccordionItem = ({ question, answer, topics }: QuestionsAccordion
         onClose={handleClose}
         menuItems={[
           { label: "Edit", onClick: handleClose },
-          { label: "Delete", onClick: handleClose, color: "var(--danger)" },
+          {
+            label: "Delete",
+            onClick: handleClose,
+            color: "var(--danger)",
+            bgColor: "var(--light-danger)",
+          },
         ]}
       />
 
