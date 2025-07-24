@@ -12,6 +12,7 @@
   --light-gray: color-mix(in oklab, var(--neutral-gray) 60%, transparent);
   --success: #10b981;
   --danger: #ff5c5e;
+  --light-danger: #ffdfdf;
 }
 
 @media (prefers-color-scheme: dark) {
