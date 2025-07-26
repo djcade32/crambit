@@ -14,7 +14,7 @@ const GuidesPage = () => {
   };
 
   return (
-    <div className="page-container ">
+    <div className="page-container">
       <div className="py-9 flex flex-col items-center gap-5">
         <h1 className="text-3xl text-center font-semibold">Create a Guide</h1>
         <Button label="Create" onClick={handleCreateGuide} />
