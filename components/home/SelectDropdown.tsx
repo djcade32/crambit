@@ -30,12 +30,7 @@ export default function SelectDropdown() {
 
   return (
     <div className="flex items-center gap-2 border-2 border-(--neutral-gray) w-[20%] rounded-[5px]">
-      <Select
-        options={SELECT_OPTIONS}
-        value={selectedTags}
-        setValues={setSelectedTags}
-        width={200}
-      />
+      <Select options={SELECT_OPTIONS} value={selectedTags} setValues={setSelectedTags} />
     </div>
   );
 }

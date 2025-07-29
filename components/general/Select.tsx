@@ -28,7 +28,7 @@ interface SelectProps extends BaseSelectProps {
   options: string[];
   value?: string[];
   setValues?: (values: string[]) => void;
-  width?: number;
+  width?: number | string;
 }
 
 const Select = (props: SelectProps) => {
@@ -65,7 +65,7 @@ const Select = (props: SelectProps) => {
             display: "flex",
             gap: 0.5,
             overflowX: "scroll",
-            maxWidth: 300,
+            maxWidth: props?.width || 300,
           }}
         >
           {selected.length === 0 && (
