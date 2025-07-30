@@ -4,9 +4,10 @@ import { cn } from "@/lib/utils";
 import React from "react";
 
 interface ButtonProps {
-  label: string;
   onClick: () => void;
   disabled?: boolean;
+  label?: string;
+  iconButton?: boolean; // Optional prop to indicate if an icon is used instead of text
   variant?: "primary" | "secondary" | "success" | "danger";
   className?: string; // Optional prop for additional classes
   preIcon?: React.ReactNode; // Optional prop for pre-icon
@@ -15,9 +16,10 @@ interface ButtonProps {
 }
 
 const Button = ({
-  label,
   onClick,
   disabled = false,
+  label,
+  iconButton = false,
   variant = "primary",
   className,
   preIcon,
@@ -67,9 +69,9 @@ const Button = ({
       onClick={handleClick}
       disabled={disabled}
     >
-      {preIcon && <span className="mr-2.5">{preIcon}</span>}
-      {label}
-      {postIcon && <span className="ml-2.5">{postIcon}</span>}
+      {preIcon && <span className={cn(!iconButton && "mr-2.5")}>{preIcon}</span>}
+      {!iconButton && label}
+      {postIcon && <span className={cn(!iconButton && "ml-2.5")}>{postIcon}</span>}
     </button>
   );
 };
