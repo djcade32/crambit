@@ -18,7 +18,7 @@ const AuthForm = ({ isLogin }: AuthFormProps) => {
         <div className="flex flex-col gap-1">
           <label htmlFor="">Name</label>
           <input
-            className="border-1 border-(--neutral-gray) rounded-[5px] h-10.5 p-3"
+            className="border-2 border-(--neutral-gray) focus:border-(--accent) focus:bg-(--light-gray) outline-none rounded-[5px] h-10.5 p-3 hover:bg-(--neutral-gray)/60 duration-200"
             type="text"
           />
         </div>
@@ -26,23 +26,23 @@ const AuthForm = ({ isLogin }: AuthFormProps) => {
       <div className="flex flex-col gap-1">
         <label htmlFor="">Email</label>
         <input
-          className="border-1 border-(--neutral-gray) rounded-[5px] h-10.5 p-3"
+          className="border-2 border-(--neutral-gray) focus:border-(--accent) focus:bg-(--light-gray) outline-none rounded-[5px] h-10.5 p-3 hover:bg-(--neutral-gray)/60 duration-200"
           type="text"
         />
       </div>
       <div className="flex flex-col gap-1">
         <label htmlFor="">Password</label>
         <input
-          className="border-1 border-(--neutral-gray) rounded-[5px] h-10.5 p-3"
-          type="password"
+          className="border-2 border-(--neutral-gray) focus:border-(--accent) focus:bg-(--light-gray) outline-none rounded-[5px] h-10.5 p-3 hover:bg-(--neutral-gray)/60 duration-200"
+          type="text"
         />
       </div>
       {!isLogin && (
         <div className="flex flex-col gap-1">
           <label htmlFor="">Re-type Password</label>
           <input
-            className="border-1 border-(--neutral-gray) rounded-[5px] h-10.5 p-3"
-            type="password"
+            className="border-2 border-(--neutral-gray) focus:border-(--accent) focus:bg-(--light-gray) outline-none rounded-[5px] h-10.5 p-3 hover:bg-(--neutral-gray)/60 duration-200"
+            type="text"
           />
         </div>
       )}
