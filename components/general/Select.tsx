@@ -5,6 +5,7 @@ import Box from "@mui/material/Box";
 import MenuItem from "@mui/material/MenuItem";
 import { Chip, Select as SelectMUI, SelectChangeEvent, BaseSelectProps } from "@mui/material";
 import { useTheme } from "@/providers/ThemeProvider";
+import { cn } from "@/lib/utils";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -29,10 +30,11 @@ interface SelectProps extends BaseSelectProps {
   value?: string[];
   setValues?: (values: string[]) => void;
   width?: number | string;
+  focusedClassName?: React.CSSProperties;
 }
 
 const Select = (props: SelectProps) => {
-  const { options } = props;
+  const { options, className } = props;
   const [selectedValues, setSelectedValues] = useState<string[]>(props.value || []);
   const { theme } = useTheme();
 
@@ -53,7 +55,7 @@ const Select = (props: SelectProps) => {
 
   return (
     <SelectMUI
-      className="h-[40px] p-2"
+      className={cn("h-[40px] p-2", className)}
       displayEmpty
       id="topics-multiple-chip"
       multiple
@@ -99,14 +101,18 @@ const Select = (props: SelectProps) => {
           backgroundColor: "var(--light-gray)",
           transition: "background-color 0.2s ease",
         },
-        "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-          border: "none",
-        },
+        "&.Mui-focused .MuiOutlinedInput-notchedOutline": props.focusedClassName
+          ? {
+              ...props.focusedClassName,
+            }
+          : {
+              border: "none",
+            },
         "& .MuiSelect-icon": {
           color: theme === "dark" ? "var(--white)" : "var(--black)",
         },
       }}
-      {...props}
+      // {...props}
     >
       {options.map((option) => (
         <MenuItem key={option} value={option}>

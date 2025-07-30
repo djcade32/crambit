@@ -30,7 +30,15 @@ export default function SelectDropdown() {
 
   return (
     <div className="flex items-center gap-2 border-2 border-(--neutral-gray) w-[20%] rounded-[5px]">
-      <Select options={SELECT_OPTIONS} value={selectedTags} setValues={setSelectedTags} />
+      <Select
+        options={SELECT_OPTIONS}
+        value={selectedTags}
+        setValues={setSelectedTags}
+        focusedClassName={{
+          border: "2px solid var(--accent)",
+          backgroundColor: "var(--light-gray)",
+        }}
+      />
     </div>
   );
 }

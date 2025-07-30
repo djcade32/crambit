@@ -8,9 +8,10 @@ export default function Search() {
       className={`
         flex
         w-[45%]
-        border-2 border-(--neutral-gray) rounded-[5px]
-        transition-colors
+        border-2 rounded-[5px]
+        transition-all
         ${focused && "bg-(--neutral-gray)/60"}
+        ${focused ? "border-(--accent)" : "border-(--neutral-gray)"}
         items-center gap-2 hover:bg-(--neutral-gray)/60 duration-200
       `}
     >
