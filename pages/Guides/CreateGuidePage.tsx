@@ -43,12 +43,7 @@ export const CreateGuidePage = () => {
         </div>
       </div>
       <div className="flex flex-col items-end gap-2.5 mt-8">
-        <Button
-          dataTestid="create-guide-button"
-          preIcon={<Plus />}
-          iconButton
-          onClick={handleShowCreateGuidModal}
-        />
+        <Button preIcon={<Plus />} iconButton onClick={handleShowCreateGuidModal} />
         <QuestionsTable />
       </div>
       <div className="flex justify-end gap-8 flex-1 items-center">

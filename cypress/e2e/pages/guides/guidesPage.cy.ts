@@ -1,4 +1,4 @@
-import { getElementByDataTestId } from "@/cypress/utils";
+import { getElementByDataTestId } from "../../../utils/index";
 
 describe("Test Guides Page", () => {
   before(() => {
