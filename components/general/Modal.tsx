@@ -38,14 +38,7 @@ const Modal = ({
         open ? "opacity-100 z-50" : "opacity-0 z-[-1]"
       )}
     >
-      <div
-        className={`bg-(--white) dark:bg-[#20252A] rounded-[5px] p-6 border-1 border-(--neutral-gray) shadow-lg ${cn(
-          height ? `h-[${height}]` : "min-h-[700px]",
-          width ? `w-[${width}]` : "w-[40vw]",
-          maxHeight ? `max-h-[${maxHeight}]` : "max-h-[80vh]",
-          maxWidth ? `max-w-[${maxWidth}]` : "max-w-[90vw]"
-        )}`}
-      >
+      <div className="bg-(--white) dark:bg-[#20252A] rounded-[5px] p-6 border-1 border-(--neutral-gray) shadow-lg w-[80vw] lg:w-[60vw] xl:w-[40vw]">
         <div className="flex justify-end">
           {!showCancelButton && (
             <X color="var(--dark-gray)" className="cursor-pointer" onClick={handleClose} />

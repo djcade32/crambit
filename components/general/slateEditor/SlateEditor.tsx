@@ -29,7 +29,8 @@ const initialValue: Descendant[] = [
 ];
 
 interface SlateEditorProps {
-  note: any;
+  answer: any;
+  setAnswerValue: (value: Descendant[]) => void;
 }
 
 const Element = ({ attributes, children, element }: RenderElementProps) => {
@@ -119,7 +120,7 @@ const Leaf = ({ attributes, children, leaf }: RenderLeafProps) => {
   );
 };
 
-const SlateEditor = ({ note }: SlateEditorProps) => {
+const SlateEditor = ({ answer, setAnswerValue }: SlateEditorProps) => {
   const renderElement = useCallback((props: RenderElementProps) => <Element {...props} />, []);
   const renderLeaf = useCallback((props: RenderLeafProps) => <Leaf {...props} />, []);
   const editor = useMemo(() => withHistory(withReact(createEditor())), []);
@@ -133,12 +134,13 @@ const SlateEditor = ({ note }: SlateEditorProps) => {
   useEffect(() => {
     // if (!note) return;
     // setNoteId(note.id);
-  }, [note.id]);
+    // setAnswerValue(answer || initialValue);
+  }, [answer]);
 
   // Reset selection when the note changes
   useEffect(() => {
     Transforms.deselect(editor); // Clear selection
-  }, [note.id, editor]);
+  }, [answer.id, editor]);
 
   const handleOnChange = (newValue: Descendant[]) => {
     console.log("Editor content changed:", newValue);
@@ -146,7 +148,7 @@ const SlateEditor = ({ note }: SlateEditorProps) => {
     clearTimeout(debounceTimeout as NodeJS.Timeout);
     setDebounceTimeout(
       setTimeout(() => {
-        setTextValue(newValue);
+        setAnswerValue(newValue);
       }, 1000)
     );
   };

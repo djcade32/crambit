@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import MenuItem from "@mui/material/MenuItem";
 import { Chip, Select as SelectMUI, SelectChangeEvent, BaseSelectProps } from "@mui/material";
@@ -22,6 +22,12 @@ const Select = (props: SelectProps) => {
   const { options, className } = props;
   const [selectedValues, setSelectedValues] = useState<string[]>(props.value || []);
   const { theme } = useTheme();
+
+  useEffect(() => {
+    if (props.value) {
+      setSelectedValues(props.value);
+    }
+  }, [props.value]);
 
   const MenuProps = {
     PaperProps: {
