@@ -1,3 +1,5 @@
+import "cypress-real-events/support";
+
 describe("Test Guides Page", () => {
   before(() => {
     cy.visit("/guides");
@@ -15,7 +17,7 @@ describe("Test Guides Page", () => {
   });
 
   it("should navigate to create study guide view when create button clicked", () => {
-    cy.get("button").contains("Create").click();
+    cy.get("button").contains("Create").realClick();
     cy.wait(3000); // Wait for the navigation to complete
     cy.location("pathname").should("include", "/guides/create");
   });
