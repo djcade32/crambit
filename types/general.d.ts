@@ -4,3 +4,27 @@ export interface Question {
   answer: string;
   topics: string[];
 }
+
+export interface ModalProps {
+  open: boolean;
+  setOpen: (open: boolean) => void;
+  height?: string;
+  width?: string;
+  maxWidth?: string;
+  maxHeight?: string;
+  children?: React.ReactNode;
+  actionButtons?: ModalActionButtons;
+  onClose?: () => void;
+}
+
+export interface ModalActionButtons {
+  confirm?: {
+    label?: string;
+    onClick: () => void;
+  };
+  cancel?: {
+    label?: string;
+    onClick: () => void;
+    variant?: "primary" | "danger";
+  };
+}

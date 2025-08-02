@@ -12,15 +12,19 @@
     "cy:headless:github": "start-server-and-test dev http://localhost:3000 cy:headless"
   },
   "dependencies": {
+    "@emotion/css": "^11.13.5",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@mui/material": "^7.2.0",
     "clsx": "^2.1.1",
     "cypress-real-events": "^1.14.0",
+    "is-hotkey": "^0.2.0",
     "lucide-react": "^0.525.0",
     "next": "15.3.5",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "slate-history": "^0.113.1",
+    "slate-react": "^0.117.4",
     "start-server-and-test": "^2.0.12",
     "tailwind": "^4.0.0",
     "tailwind-merge": "^3.3.1",
@@ -29,6 +33,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
+    "@types/is-hotkey": "^0.1.10",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

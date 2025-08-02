@@ -10,21 +10,6 @@ import { cn } from "@/lib/utils";
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      // backgroundColor: "#20252a",
-      // color: "var(--white)",
-    },
-    sx: {
-      "& .MuiMenuItem-root.Mui-selected": {
-        backgroundColor: "var(--neutral-gray)",
-      },
-    },
-  },
-};
-
 interface SelectProps extends BaseSelectProps {
   options: string[];
   value?: string[];
@@ -37,6 +22,26 @@ const Select = (props: SelectProps) => {
   const { options, className } = props;
   const [selectedValues, setSelectedValues] = useState<string[]>(props.value || []);
   const { theme } = useTheme();
+
+  const MenuProps = {
+    PaperProps: {
+      style: {
+        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+        color: theme === "dark" ? "var(--white)" : "var(--black)",
+        backgroundColor: theme === "dark" ? "var(--dark-gray)" : "var(--white)",
+      },
+      sx: {
+        "& .MuiMenuItem-root": {
+          "&:hover": {
+            backgroundColor: theme === "dark" ? "#a6afc2" : "var(--light-gray)",
+          },
+        },
+        "& .MuiMenuItem-root.Mui-selected": {
+          backgroundColor: theme === "dark" ? "#a6afc2" : "var(--neutral-gray)",
+        },
+      },
+    },
+  };
 
   const handleChange = (event: SelectChangeEvent<typeof selectedValues>) => {
     const {
@@ -111,10 +116,11 @@ const Select = (props: SelectProps) => {
         "& .MuiSelect-icon": {
           color: theme === "dark" ? "var(--white)" : "var(--black)",
         },
+        ...props.sx,
       }}
       // {...props}
     >
-      {options.map((option) => (
+      {options?.map((option) => (
         <MenuItem key={option} value={option}>
           {option}
         </MenuItem>

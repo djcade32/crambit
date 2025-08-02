@@ -1,29 +1,7 @@
 import { useState } from "react";
 import * as React from "react";
 import Select from "../general/Select";
-
-const SELECT_OPTIONS = [
-  "React",
-  "JavaScript",
-  "TypeScript",
-  "CSS",
-  "HTML",
-  "Node.js",
-  "Express",
-  "MongoDB",
-  "GraphQL",
-  "Apollo Client",
-  "Redux",
-  "Next.js",
-  "Tailwind CSS",
-  "Material-UI",
-  "Bootstrap",
-  "Sass",
-  "Less",
-  "Vue.js",
-  "Angular",
-  "Ember.js",
-];
+import { SELECT_OPTIONS } from "@/data/dummyData";
 
 export default function SelectDropdown() {
   const [selectedTags, setSelectedTags] = useState<string[]>([]);

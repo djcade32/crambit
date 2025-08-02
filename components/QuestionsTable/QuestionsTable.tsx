@@ -4,32 +4,9 @@ import React, { useEffect, useState } from "react";
 import CheckMark from "../general/CheckMark";
 import { Search, ListFilter } from "lucide-react";
 import Select from "../general/Select";
-import { DUMMY_QUESTIONS } from "@/data/dummyData";
+import { DUMMY_QUESTIONS, SELECT_OPTIONS } from "@/data/dummyData";
 import QuestionsTableItem from "./QuestionsTableItem";
 import { Question } from "@/types/general";
-
-const SELECT_OPTIONS = [
-  "React",
-  "JavaScript",
-  "TypeScript",
-  "CSS",
-  "HTML",
-  "Node.js",
-  "Express",
-  "MongoDB",
-  "GraphQL",
-  "Apollo Client",
-  "Redux",
-  "Next.js",
-  "Tailwind CSS",
-  "Material-UI",
-  "Bootstrap",
-  "Sass",
-  "Less",
-  "Vue.js",
-  "Angular",
-  "Ember.js",
-];
 
 const QuestionsTable = () => {
   const [selectedTags, setSelectedTags] = useState<string[]>([]);

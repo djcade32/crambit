@@ -1,0 +1,20 @@
+.slateEditor__editable {
+  padding: 0 10px;
+  margin-top: 10px;
+  border: none;
+  outline: none;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  height: 325px;
+}
+
+.slateEditor__editable::-webkit-scrollbar {
+  background-color: transparent;
+  width: 10px;
+}
+
+.slateEditor__editable::-webkit-scrollbar-thumb {
+  background-color: var(--dark-gray);
+  border-radius: 10px;
+  cursor: pointer;
+}
