@@ -5,6 +5,7 @@ import React from "react";
 
 interface ButtonProps {
   onClick: () => void;
+  test?: string; // Optional prop for button ID
   disabled?: boolean;
   label?: string;
   iconButton?: boolean; // Optional prop to indicate if an icon is used instead of text

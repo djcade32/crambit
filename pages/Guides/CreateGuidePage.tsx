@@ -2,15 +2,21 @@
 
 import Button from "@/components/general/Button";
 import QuestionsTable from "@/components/QuestionsTable/QuestionsTable";
-import React from "react";
+import React, { useState } from "react";
 import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
+import CreateGuideModal from "@/modals/CreateGuideModal";
 
 export const CreateGuidePage = () => {
   const router = useRouter();
+  const [openModal, setOpenModal] = useState(false);
 
   const handleCancel = () => {
     router.back(); // Navigate back to the previous page
+  };
+
+  const handleShowCreateGuidModal = () => {
+    setOpenModal(true);
   };
 
   return (
@@ -37,13 +43,14 @@ export const CreateGuidePage = () => {
         </div>
       </div>
       <div className="flex flex-col items-end gap-2.5 mt-8">
-        <Button preIcon={<Plus />} iconButton onClick={() => console.log("show modal")} />
+        <Button preIcon={<Plus />} iconButton onClick={handleShowCreateGuidModal} />
         <QuestionsTable />
       </div>
       <div className="flex justify-end gap-8 flex-1 items-center">
         <Button label="Cancel" variant="danger" onClick={handleCancel} />
         <Button label="Create" variant="primary" onClick={() => console.log("Guide created")} />
       </div>
+      <CreateGuideModal open={openModal} setOpen={setOpenModal} />
     </div>
   );
 };

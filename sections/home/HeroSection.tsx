@@ -12,8 +12,7 @@ const HeroSection = () => {
   };
 
   const handleCreateGuide = () => {
-    // navigate.push("/guides/create");
-    console.log("Create your guide clicked");
+    navigate.push("/guides/create");
   };
   return (
     <div className="py-[60px] border-b-1 border-(--neutral-gray) flex flex-col items-center justify-center">

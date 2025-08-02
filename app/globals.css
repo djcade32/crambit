@@ -8,7 +8,7 @@
   --black: #0e1116;
   --accent: #1e7eff;
   --dark-gray: #6b7280;
-  --neutral-gray: hsl(220, 9%, 46%, 20%);
+  --neutral-gray: hsla(220, 23%, 46%, 0.2);
   --light-gray: color-mix(in oklab, var(--neutral-gray) 60%, transparent);
   --success: #10b981;
   --danger: #ff5c5e;
@@ -58,14 +58,6 @@ body {
 
   .page-container {
     @apply flex-1 overflow-hidden flex flex-col;
-  }
-
-  h2 {
-    @apply text-3xl font-semibold;
-  }
-
-  h3 {
-    @apply text-2xl font-semibold;
   }
 }
 

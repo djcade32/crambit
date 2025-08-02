@@ -167,3 +167,26 @@ export const DUMMY_STUDY_GUIDES = [
   // //   lastUpdated: "01/30/2025",
   // // },
 ];
+
+export const SELECT_OPTIONS = [
+  "React",
+  "JavaScript",
+  "TypeScript",
+  "CSS",
+  "HTML",
+  "Node.js",
+  "Express",
+  "MongoDB",
+  "GraphQL",
+  "Apollo Client",
+  "Redux",
+  "Next.js",
+  "Tailwind CSS",
+  "Material-UI",
+  "Bootstrap",
+  "Sass",
+  "Less",
+  "Vue.js",
+  "Angular",
+  "Ember.js",
+];
