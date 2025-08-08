@@ -27,4 +27,6 @@ export interface ModalActionButtons {
     onClick: () => void | Promise<void>;
     variant?: "primary" | "danger";
   };
+  slotRight?: () => React.ReactNode;
+  slotLeft?: () => React.ReactNode;
 }

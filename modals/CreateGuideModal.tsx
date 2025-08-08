@@ -1,3 +1,4 @@
+import CheckMark from "@/components/general/CheckMark";
 import Modal from "@/components/general/Modal";
 import Select from "@/components/general/Select";
 import SlateEditor from "@/components/general/slateEditor/SlateEditor";
@@ -30,8 +31,9 @@ const CreateGuideModal = ({ open, setOpen }: ModalProps) => {
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [answerValue, setAnswerValue] = useState<Descendant[]>(initialValue);
   const [formError, setFormError] = useState<FormError[]>([]);
-  const editor = useMemo(() => withHistory(withReact(createEditor())), []);
+  const [createAnother, setCreateAnother] = useState(false);
 
+  const editor = useMemo(() => withHistory(withReact(createEditor())), []);
   const { theme } = useTheme();
 
   const handleSubmit = async () => {
@@ -54,7 +56,7 @@ const CreateGuideModal = ({ open, setOpen }: ModalProps) => {
       const docRef = await addDoc(collection(db, "questions"), newQuestion);
       await updateDoc(docRef, { id: docRef.id });
       handleClose();
-      setOpen(false);
+      !createAnother && setOpen(false);
       console.log("Guide created successfully:", docRef.id);
     } catch (error) {
       console.error("Error creating guide:", error);
@@ -99,6 +101,12 @@ const CreateGuideModal = ({ open, setOpen }: ModalProps) => {
       label: "Create",
       onClick: handleSubmit,
     },
+    slotLeft: () => (
+      <div className="flex items-center gap-2">
+        <CheckMark onClick={() => setCreateAnother((prev) => !prev)} />
+        <p className="text-(--dark-gray) text-lg">Create another</p>
+      </div>
+    ),
   };
 
   return (

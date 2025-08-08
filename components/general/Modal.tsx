@@ -31,20 +31,30 @@ const Modal = ({ children, actionButtons, onClose, open, setOpen }: ModalProps) 
           )}
         </div>
         {children}
-        <div className="flex justify-end gap-4 mt-3">
-          {showCancelButton && (
-            <Button
-              label={actionButtons?.cancel?.label || "Cancel"}
-              onClick={() => console.log("confirm")}
-              variant={actionButtons?.cancel?.variant || "danger"}
-            />
-          )}
-          <Button
-            label={actionButtons?.confirm?.label || "Confirm"}
-            onClick={
-              actionButtons?.confirm?.onClick || (() => console.log("Implement confirm action"))
-            }
-          />
+        <div className="flex justify-between items-center mt-3">
+          <div>{!!actionButtons?.slotLeft && actionButtons.slotLeft()}</div>
+          <div className="flex justify-end gap-4 ">
+            {!!actionButtons?.slotRight ? (
+              <div>{actionButtons.slotRight()}</div>
+            ) : (
+              <>
+                {showCancelButton && (
+                  <Button
+                    label={actionButtons?.cancel?.label || "Cancel"}
+                    onClick={() => console.log("confirm")}
+                    variant={actionButtons?.cancel?.variant || "danger"}
+                  />
+                )}
+                <Button
+                  label={actionButtons?.confirm?.label || "Confirm"}
+                  onClick={
+                    actionButtons?.confirm?.onClick ||
+                    (() => console.log("Implement confirm action"))
+                  }
+                />
+              </>
+            )}
+          </div>
         </div>
       </div>
     </div>
