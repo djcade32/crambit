@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import React from "react";
 
 interface ButtonProps {
-  onClick: () => void;
+  onClick: (data?: any) => void;
   test?: string; // Optional prop for button ID
   disabled?: boolean;
   label?: string;
@@ -59,7 +59,8 @@ const Button = ({
     return baseClass;
   };
 
-  const handleClick = () => {
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
     onClick();
   };
 
@@ -67,7 +68,7 @@ const Button = ({
     <button
       data-testid={dataTestid}
       className={cn(getButtonClasses(), (preIcon || postIcon) && "flex")}
-      onClick={handleClick}
+      onClick={e => handleClick(e)}
       disabled={disabled}
     >
       {preIcon && <span className={cn(!iconButton && "mr-2.5")}>{preIcon}</span>}
