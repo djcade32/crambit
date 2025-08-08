@@ -20,11 +20,11 @@ export interface ModalProps {
 export interface ModalActionButtons {
   confirm?: {
     label?: string;
-    onClick: () => void;
+    onClick: () => void | Promise<void>;
   };
   cancel?: {
     label?: string;
-    onClick: () => void;
+    onClick: () => void | Promise<void>;
     variant?: "primary" | "danger";
   };
 }

@@ -15,7 +15,7 @@ export const CreateGuidePage = () => {
     router.back(); // Navigate back to the previous page
   };
 
-  const handleShowCreateGuidModal = () => {
+  const handleShowCreateGuideModal = () => {
     setOpenModal(true);
   };
 
@@ -43,7 +43,7 @@ export const CreateGuidePage = () => {
         </div>
       </div>
       <div className="flex flex-col items-end gap-2.5 mt-8">
-        <Button preIcon={<Plus />} iconButton onClick={handleShowCreateGuidModal} />
+        <Button preIcon={<Plus />} iconButton onClick={handleShowCreateGuideModal} />
         <QuestionsTable />
       </div>
       <div className="flex justify-end gap-8 flex-1 items-center">

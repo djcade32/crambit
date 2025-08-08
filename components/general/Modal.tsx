@@ -1,27 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { X } from "lucide-react";
 import Button from "./Button";
 import { ModalProps } from "@/types/general";
 import { cn } from "@/lib/utils";
 
-const Modal = ({
-  children,
-  actionButtons,
-  onClose,
-  open,
-  setOpen,
-  height,
-  width,
-  maxHeight,
-  maxWidth,
-}: ModalProps) => {
+const Modal = ({ children, actionButtons, onClose, open, setOpen }: ModalProps) => {
   if (!children) {
     return null; // Don't render the modal if there are no children
   }
-
-  useEffect(() => {
-    console.log("Modal mounted with open state:", open);
-  }, [open]);
 
   const showCancelButton = !!actionButtons?.cancel;
   const handleClose = () => {
