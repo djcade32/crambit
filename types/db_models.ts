@@ -1,7 +1,7 @@
 export type QuestionModel = {
   ownerId: string;
-  question: String;
-  answer: String;
-  tags: Array<String>;
+  question: string;
+  answer: string;
+  tags: Array<string>;
   _createdAt: Date;
 };

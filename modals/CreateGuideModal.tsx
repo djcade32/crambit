@@ -5,6 +5,7 @@ import SlateEditor from "@/components/general/slateEditor/SlateEditor";
 import { SELECT_OPTIONS } from "@/data/dummyData";
 import { auth, db } from "@/firebase/client";
 import { useTheme } from "@/providers/ThemeProvider";
+import useQuestionsStore from "@/stores/questions-store";
 import { QuestionModel } from "@/types/db_models";
 import { ModalActionButtons, ModalProps } from "@/types/general";
 import { addDoc, collection, updateDoc } from "firebase/firestore";
@@ -32,6 +33,7 @@ const CreateGuideModal = ({ open, setOpen }: ModalProps) => {
   const [answerValue, setAnswerValue] = useState<Descendant[]>(initialValue);
   const [formError, setFormError] = useState<FormError[]>([]);
   const [createAnother, setCreateAnother] = useState(false);
+  const { addQuestion } = useQuestionsStore();
 
   const editor = useMemo(() => withHistory(withReact(createEditor())), []);
   const { theme } = useTheme();
@@ -55,6 +57,7 @@ const CreateGuideModal = ({ open, setOpen }: ModalProps) => {
 
       const docRef = await addDoc(collection(db, "questions"), newQuestion);
       await updateDoc(docRef, { id: docRef.id });
+      addQuestion({ ...newQuestion, id: docRef.id });
       handleClose();
       !createAnother && setOpen(false);
       console.log("Guide created successfully:", docRef.id);

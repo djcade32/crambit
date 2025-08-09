@@ -31,7 +31,8 @@
     "slate-react": "^0.117.4",
     "start-server-and-test": "^2.0.12",
     "tailwind": "^4.0.0",
-    "tailwind-merge": "^3.3.1"
+    "tailwind-merge": "^3.3.1",
+    "zustand": "^5.0.7"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

@@ -10,10 +10,12 @@ import { useQuery } from "@tanstack/react-query";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "@/firebase/client";
 import { useUid } from "@/hooks/useUid";
+import useQuestionsStore from "@/stores/questions-store";
 
 export const CreateGuidePage = () => {
   const router = useRouter();
   const { uid, loading } = useUid();
+  const { setQuestions, questions } = useQuestionsStore();
 
   const {
     isPending,
@@ -23,10 +25,9 @@ export const CreateGuidePage = () => {
   } = useQuery({
     queryKey: ["questions", uid], // include uid in key so it refetches per user
     queryFn: async () => {
-      console.log("Fetching questions for user:", uid);
       const q = query(collection(db, "questions"), where("ownerId", "==", uid));
       const snap = await getDocs(q);
-      return snap.docs.map(
+      const questions = snap.docs.map(
         (d) =>
           ({
             id: d.id,
@@ -35,6 +36,8 @@ export const CreateGuidePage = () => {
             tags: d.data().tags,
           } as Question)
       );
+      setQuestions(questions); // Update the Zustand store with fetched questions
+      return questions;
     },
     staleTime: 60_000,
     enabled: !!uid && !loading, // prevent running before uid is ready
@@ -75,7 +78,7 @@ export const CreateGuidePage = () => {
       </div>
       <div className="flex flex-col items-end gap-2.5 mt-8">
         <Button preIcon={<Plus />} iconButton onClick={handleShowCreateGuideModal} />
-        <QuestionsTable questions={data} isLoading={isPending || !uid} />
+        <QuestionsTable questions={questions} isLoading={isPending || !uid} />
       </div>
       <div className="flex justify-end gap-8 flex-1 items-center">
         <Button label="Cancel" variant="danger" onClick={handleCancel} />
