@@ -1,16 +1,12 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import isHotkey from "is-hotkey";
-import { Editable, withReact, Slate, RenderElementProps, RenderLeafProps } from "slate-react";
-import { createEditor, Descendant, Transforms } from "slate";
+import { Editable, Slate, RenderElementProps, RenderLeafProps } from "slate-react";
+import { Descendant, Transforms } from "slate";
 
-import { withHistory } from "slate-history";
 import { toggleMark } from "./helpers";
 import MarkButton from "./components/MarkButton";
 import BlockButton from "./components/BlockButton";
 import styles from "./slateEditor.module.css";
-// import { Note } from "@/types/general";
-// import useNotesStore from "@/stores/widgets/notes-store";
-import EditorTimeDisplay from "./components/EditorTimeDisplay";
 import EditorToolbar from "./components/EditorToolbar";
 
 const HOTKEYS = {
@@ -20,17 +16,11 @@ const HOTKEYS = {
   "mod+": "code",
 };
 
-const initialValue: Descendant[] = [
-  {
-    type: "paragraph",
-    align: "left",
-    children: [{ text: "" }],
-  },
-];
-
 interface SlateEditorProps {
   answer: any;
   setAnswerValue: (value: Descendant[]) => void;
+  editor: any;
+  onChange?: () => void;
 }
 
 const Element = ({ attributes, children, element }: RenderElementProps) => {
@@ -120,22 +110,12 @@ const Leaf = ({ attributes, children, leaf }: RenderLeafProps) => {
   );
 };
 
-const SlateEditor = ({ answer, setAnswerValue }: SlateEditorProps) => {
+const SlateEditor = ({ answer, setAnswerValue, editor, onChange }: SlateEditorProps) => {
   const renderElement = useCallback((props: RenderElementProps) => <Element {...props} />, []);
   const renderLeaf = useCallback((props: RenderLeafProps) => <Leaf {...props} />, []);
-  const editor = useMemo(() => withHistory(withReact(createEditor())), []);
-  const [textValue, setTextValue] = useState<Descendant[]>(initialValue);
-  // const { updateNote } = useNotesStore();
 
   // Needed to force re-render when the note changes
-  const [noteId, setNoteId] = useState<string | null>(null);
   const [debounceTimeout, setDebounceTimeout] = useState<NodeJS.Timeout | null>(null);
-
-  useEffect(() => {
-    // if (!note) return;
-    // setNoteId(note.id);
-    // setAnswerValue(answer || initialValue);
-  }, [answer]);
 
   // Reset selection when the note changes
   useEffect(() => {
@@ -143,21 +123,22 @@ const SlateEditor = ({ answer, setAnswerValue }: SlateEditorProps) => {
   }, [answer.id, editor]);
 
   const handleOnChange = (newValue: Descendant[]) => {
-    console.log("Editor content changed:", newValue);
-    // if (newValue === note.text || noteId !== note.id) return;
     clearTimeout(debounceTimeout as NodeJS.Timeout);
     setDebounceTimeout(
       setTimeout(() => {
         setAnswerValue(newValue);
       }, 1000)
     );
+    if (onChange) {
+      onChange();
+    }
   };
 
   return (
     <Slate
-      key={noteId} // Force re-render when the note changes
+      // key={noteId} // Force re-render when the note changes
       editor={editor}
-      initialValue={textValue}
+      initialValue={answer}
       onChange={handleOnChange}
     >
       <div className="border-1 border-(--neutral-gray) rounded-[5px] bg-white dark:bg-(--neutral-gray)">

@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import React from "react";
 
 interface ButtonProps {
-  onClick: () => void;
+  onClick: (data?: any) => void | Promise<void>;
   test?: string; // Optional prop for button ID
   disabled?: boolean;
   label?: string;
@@ -59,15 +59,16 @@ const Button = ({
     return baseClass;
   };
 
-  const handleClick = () => {
-    onClick();
+  const handleClick = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
+    await onClick();
   };
 
   return (
     <button
       data-testid={dataTestid}
       className={cn(getButtonClasses(), (preIcon || postIcon) && "flex")}
-      onClick={handleClick}
+      onClick={(e) => handleClick(e)}
       disabled={disabled}
     >
       {preIcon && <span className={cn(!iconButton && "mr-2.5")}>{preIcon}</span>}

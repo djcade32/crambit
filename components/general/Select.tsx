@@ -16,6 +16,8 @@ interface SelectProps extends BaseSelectProps {
   setValues?: (values: string[]) => void;
   width?: number | string;
   focusedClassName?: React.CSSProperties;
+  maxSelectable?: number;
+  onChange?: () => void;
 }
 
 const Select = (props: SelectProps) => {
@@ -53,6 +55,10 @@ const Select = (props: SelectProps) => {
     const {
       target: { value },
     } = event;
+    props.onChange && props.onChange();
+    if (props.maxSelectable && value.length > props.maxSelectable) {
+      return; // Prevent selection if maxSelectable limit is reached
+    }
     const valueArray = typeof value === "string" ? value.split(",") : value;
     setSelectedValues(valueArray);
     props.setValues && props.setValues(valueArray as string[]);

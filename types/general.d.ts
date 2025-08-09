@@ -2,7 +2,7 @@ export interface Question {
   id: string;
   question: string;
   answer: string;
-  topics: string[];
+  tags: string[];
 }
 
 export interface ModalProps {
@@ -20,11 +20,13 @@ export interface ModalProps {
 export interface ModalActionButtons {
   confirm?: {
     label?: string;
-    onClick: () => void;
+    onClick: () => void | Promise<void>;
   };
   cancel?: {
     label?: string;
-    onClick: () => void;
+    onClick: () => void | Promise<void>;
     variant?: "primary" | "danger";
   };
+  slotRight?: () => React.ReactNode;
+  slotLeft?: () => React.ReactNode;
 }

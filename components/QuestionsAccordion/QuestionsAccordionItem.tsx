@@ -7,10 +7,10 @@ import ContextMenu from "../general/ContextMenu";
 interface QuestionsAccordionItemProps {
   question: string;
   answer: string;
-  topics: string[];
+  tags: string[];
 }
 
-const QuestionsAccordionItem = ({ question, answer, topics }: QuestionsAccordionItemProps) => {
+const QuestionsAccordionItem = ({ question, answer, tags }: QuestionsAccordionItemProps) => {
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | SVGSVGElement>(null);
 
@@ -87,7 +87,7 @@ const QuestionsAccordionItem = ({ question, answer, topics }: QuestionsAccordion
           {answer}
         </p>
         <div className="flex mt-2 justify-end gap-2" onClick={preventMenuClose}>
-          {topics.map((topic, index) => (
+          {tags.map((topic, index) => (
             <span
               key={index}
               className="

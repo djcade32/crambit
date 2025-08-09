@@ -1,27 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { X } from "lucide-react";
 import Button from "./Button";
 import { ModalProps } from "@/types/general";
 import { cn } from "@/lib/utils";
 
-const Modal = ({
-  children,
-  actionButtons,
-  onClose,
-  open,
-  setOpen,
-  height,
-  width,
-  maxHeight,
-  maxWidth,
-}: ModalProps) => {
+const Modal = ({ children, actionButtons, onClose, open, setOpen }: ModalProps) => {
   if (!children) {
     return null; // Don't render the modal if there are no children
   }
-
-  useEffect(() => {
-    console.log("Modal mounted with open state:", open);
-  }, [open]);
 
   const showCancelButton = !!actionButtons?.cancel;
   const handleClose = () => {
@@ -45,20 +31,30 @@ const Modal = ({
           )}
         </div>
         {children}
-        <div className="flex justify-end gap-4 mt-3">
-          {showCancelButton && (
-            <Button
-              label={actionButtons?.cancel?.label || "Cancel"}
-              onClick={() => console.log("confirm")}
-              variant={actionButtons?.cancel?.variant || "danger"}
-            />
-          )}
-          <Button
-            label={actionButtons?.confirm?.label || "Confirm"}
-            onClick={
-              actionButtons?.confirm?.onClick || (() => console.log("Implement confirm action"))
-            }
-          />
+        <div className="flex justify-between items-center mt-3">
+          <div>{!!actionButtons?.slotLeft && actionButtons.slotLeft()}</div>
+          <div className="flex justify-end gap-4 ">
+            {!!actionButtons?.slotRight ? (
+              <div>{actionButtons.slotRight()}</div>
+            ) : (
+              <>
+                {showCancelButton && (
+                  <Button
+                    label={actionButtons?.cancel?.label || "Cancel"}
+                    onClick={() => console.log("confirm")}
+                    variant={actionButtons?.cancel?.variant || "danger"}
+                  />
+                )}
+                <Button
+                  label={actionButtons?.confirm?.label || "Confirm"}
+                  onClick={
+                    actionButtons?.confirm?.onClick ||
+                    (() => console.log("Implement confirm action"))
+                  }
+                />
+              </>
+            )}
+          </div>
         </div>
       </div>
     </div>
