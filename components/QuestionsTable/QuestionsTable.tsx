@@ -8,6 +8,10 @@ import { SELECT_OPTIONS } from "@/data/dummyData";
 import QuestionsTableItem from "./QuestionsTableItem";
 import { Question } from "@/types/general";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { deleteDoc, doc } from "firebase/firestore";
+import { db } from "@/firebase/client";
+import CreateGuideModal from "@/modals/CreateGuideModal";
 
 interface QuestionsTableProps {
   questions: Question[];
@@ -19,6 +23,33 @@ const QuestionsTable = ({ questions, isLoading }: QuestionsTableProps) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredQuestions, setFilteredQuestions] = useState(questions || []);
   const [selectedQuestions, setSelectedQuestions] = useState<Question[]>([]);
+  const [openModal, setOpenModal] = useState(false);
+  const [questionToEdit, setQuestionToEdit] = useState<Question | null>(null);
+
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation({
+    mutationFn: async (id: string) => {
+      console.log(`Deleting question with ID: ${id}`);
+      await deleteDoc(doc(db, "questions", id));
+      console.log(`Question with ID ${id} deleted from Firestore`);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["questions"] });
+    },
+    onError: (error) => {
+      console.error("Error deleting question:", error);
+    },
+  });
+
+  const handleDelete = (id: string) => {
+    mutation.mutate(id);
+  };
+
+  const handleEdit = (question: Question) => {
+    setQuestionToEdit(question);
+    setOpenModal(true);
+  };
 
   if (isLoading) {
     return <Skeleton className="h-[500px] w-full bg-(--neutral-gray)" />;
@@ -79,16 +110,23 @@ const QuestionsTable = ({ questions, isLoading }: QuestionsTableProps) => {
         </div>
       </div>
 
-      <div className="flex flex-col overflow-y-auto h-full">
-        {questions?.map((question, index) => (
-          <div key={question.id} className="flex flex-col">
-            <QuestionsTableItem question={question} />
-            {index !== questions.length - 1 && (
-              <div className="w-full h-[1px] bg-(--neutral-gray)" />
-            )}
+      <div className="flex flex-col overflow-y-auto h-full divide-y divide-(--neutral-gray)">
+        {!!questions.length && !isLoading ? (
+          questions?.map((question) => (
+            <QuestionsTableItem
+              key={question.id}
+              question={question}
+              onDelete={handleDelete}
+              onEdit={() => handleEdit(question)}
+            />
+          ))
+        ) : (
+          <div className="flex items-center justify-center h-full">
+            <p className="text-(--dark-gray) text-lg">No questions available</p>
           </div>
-        ))}
+        )}
       </div>
+      <CreateGuideModal open={openModal} setOpen={setOpenModal} question={questionToEdit} />
     </div>
   );
 };

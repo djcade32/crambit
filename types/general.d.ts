@@ -8,6 +8,7 @@ export interface Question {
 export interface ModalProps {
   open: boolean;
   setOpen: (open: boolean) => void;
+  question?: Question | null; // Optional, used for editing a question
   height?: string;
   width?: string;
   maxWidth?: string;
