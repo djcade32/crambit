@@ -67,6 +67,7 @@ export const CreateGuidePage = () => {
               id="guide-name"
               className="w-full text-2xl focus:outline-none focus:bg-(--neutral-gray)/60 text-(--black) placeholder:text-(--dark-gray) dark:text-(--white) hover:bg-(--neutral-gray)/60 duration-200 transition-colors rounded-[5px] p-2"
               placeholder="Enter guide name"
+              autoComplete="off"
             />
           </div>
           <p className="text-lg text-(--dark-gray)">For an example: Front-end Guide</p>
