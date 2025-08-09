@@ -11,10 +11,8 @@ const Modal = ({ children, actionButtons, onClose, open, setOpen }: ModalProps) 
 
   const showCancelButton = !!actionButtons?.cancel;
   const handleClose = () => {
-    if (onClose) {
-      onClose();
-    }
     setOpen(false);
+    onClose && onClose();
   };
 
   return (
