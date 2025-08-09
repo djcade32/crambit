@@ -2,12 +2,12 @@
 
 import Button from "@/components/general/Button";
 import QuestionsTable from "@/components/QuestionsTable/QuestionsTable";
-import React, { useState, useMemo } from "react";
+import React, { useState } from "react";
 import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import CreateGuideModal from "@/modals/CreateGuideModal";
 import { useQuery } from "@tanstack/react-query";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
 import { db } from "@/firebase/client";
 import { useUid } from "@/hooks/useUid";
 import useQuestionsStore from "@/stores/questions-store";
@@ -17,15 +17,14 @@ export const CreateGuidePage = () => {
   const { uid, loading } = useUid();
   const { setQuestions, questions } = useQuestionsStore();
 
-  const {
-    isPending,
-    isError,
-    data = [],
-    error,
-  } = useQuery({
+  const { isPending } = useQuery({
     queryKey: ["questions", uid], // include uid in key so it refetches per user
     queryFn: async () => {
-      const q = query(collection(db, "questions"), where("ownerId", "==", uid));
+      const q = query(
+        collection(db, "questions"),
+        where("ownerId", "==", uid),
+        orderBy("_createdAt", "desc")
+      );
       const snap = await getDocs(q);
       const questions = snap.docs.map(
         (d) =>

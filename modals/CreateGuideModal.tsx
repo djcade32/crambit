@@ -8,8 +8,8 @@ import { useTheme } from "@/providers/ThemeProvider";
 import useQuestionsStore from "@/stores/questions-store";
 import { QuestionModel } from "@/types/db_models";
 import { ModalActionButtons, ModalProps } from "@/types/general";
-import { addDoc, collection, updateDoc } from "firebase/firestore";
-import React, { useMemo, useState } from "react";
+import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { createEditor, Descendant } from "slate";
 import { withHistory } from "slate-history";
 import { withReact } from "slate-react";
@@ -27,16 +27,42 @@ const initialValue: Descendant[] = [
   },
 ];
 
-const CreateGuideModal = ({ open, setOpen }: ModalProps) => {
+const CreateGuideModal = ({ open, setOpen, question }: ModalProps) => {
   const [questionValue, setQuestionValue] = useState("");
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [answerValue, setAnswerValue] = useState<Descendant[]>(initialValue);
   const [formError, setFormError] = useState<FormError[]>([]);
   const [createAnother, setCreateAnother] = useState(false);
-  const { addQuestion } = useQuestionsStore();
+  const { addQuestion, updateQuestion } = useQuestionsStore();
+
+  const isEditMode = useCallback(() => {
+    return !!question;
+  }, [question]);
 
   const editor = useMemo(() => withHistory(withReact(createEditor())), []);
   const { theme } = useTheme();
+
+  useEffect(() => {
+    if (isEditMode() && question) {
+      setQuestionValue(question.question);
+      setSelectedTags(question.tags);
+      setAnswerValue(JSON.parse(question.answer || "[]"));
+      try {
+        const parsedAnswer = JSON.parse(question.answer || "[]");
+        setAnswerValue(parsedAnswer);
+        editor.children = parsedAnswer;
+      } catch (e) {
+        console.error("Failed to parse question.answer JSON:", e);
+        setAnswerValue(initialValue);
+        editor.children = initialValue;
+      }
+    } else {
+      setQuestionValue("");
+      setSelectedTags([]);
+      setAnswerValue(initialValue);
+      editor.children = initialValue;
+    }
+  }, [isEditMode]);
 
   const handleSubmit = async () => {
     if (!validateForm()) return;
@@ -54,6 +80,21 @@ const CreateGuideModal = ({ open, setOpen }: ModalProps) => {
         tags: selectedTags,
         answer: JSON.stringify(answerValue),
       };
+
+      if (isEditMode() && question) {
+        if (!anyChanges()) {
+          setOpen(false);
+          return;
+        }
+        // If editing, update the existing question
+        const questionRef = doc(db, "questions", question.id);
+        await updateDoc(questionRef, newQuestion);
+        updateQuestion(question.id, { ...newQuestion, id: question.id });
+        console.log("Question updated successfully:", question.id);
+        handleClose();
+        setOpen(false);
+        return;
+      }
 
       const docRef = await addDoc(collection(db, "questions"), newQuestion);
       await updateDoc(docRef, { id: docRef.id });
@@ -99,17 +140,27 @@ const CreateGuideModal = ({ open, setOpen }: ModalProps) => {
     setFormError((prevErrors) => prevErrors.filter((error) => error.field !== field));
   };
 
+  const anyChanges = () => {
+    return (
+      questionValue !== question?.question ||
+      selectedTags.join(",") !== question?.tags.join(",") ||
+      JSON.stringify(answerValue) !== question?.answer
+    );
+  };
+
   const modalActionButtons: ModalActionButtons = {
     confirm: {
-      label: "Create",
+      label: isEditMode() ? "Save" : "Create",
       onClick: handleSubmit,
     },
-    slotLeft: () => (
-      <div className="flex items-center gap-2">
-        <CheckMark onClick={() => setCreateAnother((prev) => !prev)} />
-        <p className="text-(--dark-gray) text-lg">Create another</p>
-      </div>
-    ),
+    slotLeft: isEditMode()
+      ? undefined
+      : () => (
+          <div className="flex items-center gap-2">
+            <CheckMark onClick={() => setCreateAnother((prev) => !prev)} />
+            <p className="text-(--dark-gray) text-lg">Create another</p>
+          </div>
+        ),
   };
 
   return (
