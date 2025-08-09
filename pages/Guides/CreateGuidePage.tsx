@@ -75,7 +75,7 @@ export const CreateGuidePage = () => {
       </div>
       <div className="flex flex-col items-end gap-2.5 mt-8">
         <Button preIcon={<Plus />} iconButton onClick={handleShowCreateGuideModal} />
-        {!isPending && uid && <QuestionsTable questions={data} />}
+        <QuestionsTable questions={data} isLoading={isPending || !uid} />
       </div>
       <div className="flex justify-end gap-8 flex-1 items-center">
         <Button label="Cancel" variant="danger" onClick={handleCancel} />
