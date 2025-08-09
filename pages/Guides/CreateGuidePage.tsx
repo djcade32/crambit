@@ -2,7 +2,7 @@
 
 import Button from "@/components/general/Button";
 import QuestionsTable from "@/components/QuestionsTable/QuestionsTable";
-import React, { useState, useMemo } from "react";
+import React, { useState } from "react";
 import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import CreateGuideModal from "@/modals/CreateGuideModal";
@@ -17,12 +17,7 @@ export const CreateGuidePage = () => {
   const { uid, loading } = useUid();
   const { setQuestions, questions } = useQuestionsStore();
 
-  const {
-    isPending,
-    isError,
-    data = [],
-    error,
-  } = useQuery({
+  const { isPending } = useQuery({
     queryKey: ["questions", uid], // include uid in key so it refetches per user
     queryFn: async () => {
       const q = query(collection(db, "questions"), where("ownerId", "==", uid));

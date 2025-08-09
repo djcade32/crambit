@@ -5,6 +5,7 @@ import { Eye, Trash } from "lucide-react";
 
 interface QuestionsTableItemProps {
   question: Question;
+  onDelete?: (id: string) => void;
 }
 
 const QuestionsTableItem = ({ question }: QuestionsTableItemProps) => {

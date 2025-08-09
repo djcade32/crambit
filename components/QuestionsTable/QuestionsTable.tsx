@@ -8,6 +8,7 @@ import { SELECT_OPTIONS } from "@/data/dummyData";
 import QuestionsTableItem from "./QuestionsTableItem";
 import { Question } from "@/types/general";
 import { Skeleton } from "@/components/ui/skeleton";
+import useQuestionsStore from "@/stores/questions-store";
 
 interface QuestionsTableProps {
   questions: Question[];
@@ -19,6 +20,7 @@ const QuestionsTable = ({ questions, isLoading }: QuestionsTableProps) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredQuestions, setFilteredQuestions] = useState(questions || []);
   const [selectedQuestions, setSelectedQuestions] = useState<Question[]>([]);
+  const { removeQuestion } = useQuestionsStore();
 
   if (isLoading) {
     return <Skeleton className="h-[500px] w-full bg-(--neutral-gray)" />;
@@ -79,14 +81,9 @@ const QuestionsTable = ({ questions, isLoading }: QuestionsTableProps) => {
         </div>
       </div>
 
-      <div className="flex flex-col overflow-y-auto h-full">
-        {questions?.map((question, index) => (
-          <div key={question.id} className="flex flex-col">
-            <QuestionsTableItem question={question} />
-            {index !== questions.length - 1 && (
-              <div className="w-full h-[1px] bg-(--neutral-gray)" />
-            )}
-          </div>
+      <div className="flex flex-col overflow-y-auto h-full divide-y divide-(--neutral-gray)">
+        {questions?.map((question) => (
+          <QuestionsTableItem key={question.id} question={question} onDelete={removeQuestion} />
         ))}
       </div>
     </div>
