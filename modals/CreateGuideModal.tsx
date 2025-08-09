@@ -47,7 +47,15 @@ const CreateGuideModal = ({ open, setOpen, question }: ModalProps) => {
       setQuestionValue(question.question);
       setSelectedTags(question.tags);
       setAnswerValue(JSON.parse(question.answer || "[]"));
-      editor.children = JSON.parse(question.answer || "[]");
+      try {
+        const parsedAnswer = JSON.parse(question.answer || "[]");
+        setAnswerValue(parsedAnswer);
+        editor.children = parsedAnswer;
+      } catch (e) {
+        console.error("Failed to parse question.answer JSON:", e);
+        setAnswerValue(initialValue);
+        editor.children = initialValue;
+      }
     } else {
       setQuestionValue("");
       setSelectedTags([]);
