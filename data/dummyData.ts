@@ -4,84 +4,84 @@ export const DUMMY_QUESTIONS = [
     question: "Explain the concept of 'hoisting' in JavaScript",
     answer:
       "Hoisting is a JavaScript mechanism where variables and function declarations are moved to the top of their containing scope during the compile phase. Hoisting is a JavaScript mechanism where variables and function declarations are moved to the top of their containing scope during the compile phase.",
-    topics: ["JavaScript", "Basics"],
+    tags: ["JavaScript", "Basics"],
   },
   {
     id: "2",
     question: "What is the difference between 'let' and 'var'?",
     answer:
       "The 'let' keyword allows you to declare variables that are block-scoped, while 'var' declares variables that are function-scoped.",
-    topics: ["JavaScript", "Variables"],
+    tags: ["JavaScript", "Variables"],
   },
   {
     id: "3",
     question: "What is a closure in JavaScript?",
     answer:
       "A closure is a function that retains access to its lexical scope, even when the function is executed outside that scope.",
-    topics: ["JavaScript", "Functions"],
+    tags: ["JavaScript", "Functions"],
   },
   {
     id: "4",
     question: "What is the purpose of the 'this' keyword in JavaScript?",
     answer:
       "The 'this' keyword refers to the context in which a function is called, allowing access to properties and methods of the object it belongs to.",
-    topics: ["JavaScript", "Context"],
+    tags: ["JavaScript", "Context"],
   },
   {
     id: "5",
     question: "What is a closure in JavaScript?",
     answer:
       "A closure is a function that retains access to its lexical scope, even when the function is executed outside that scope.",
-    topics: ["JavaScript", "Functions"],
+    tags: ["JavaScript", "Functions"],
   },
   {
     id: "6",
     question: "What is the purpose of the 'this' keyword in JavaScript?",
     answer:
       "The 'this' keyword refers to the context in which a function is called, allowing access to properties and methods of the object it belongs to.",
-    topics: ["JavaScript", "Context"],
+    tags: ["JavaScript", "Context"],
   },
   {
     id: "7",
     question: "What is a closure in JavaScript?",
     answer:
       "A closure is a function that retains access to its lexical scope, even when the function is executed outside that scope.",
-    topics: ["JavaScript", "Functions"],
+    tags: ["JavaScript", "Functions"],
   },
   {
     id: "8",
     question: "What is the purpose of the 'this' keyword in JavaScript?",
     answer:
       "The 'this' keyword refers to the context in which a function is called, allowing access to properties and methods of the object it belongs to.",
-    topics: ["JavaScript", "Context"],
+    tags: ["JavaScript", "Context"],
   },
   {
     id: "9",
     question: "What is a closure in JavaScript?",
     answer:
       "A closure is a function that retains access to its lexical scope, even when the function is executed outside that scope.",
-    topics: ["JavaScript", "Functions"],
+    tags: ["JavaScript", "Functions"],
   },
   {
     id: "10",
     question: "What is the purpose of the 'this' keyword in JavaScript?",
     answer:
       "The 'this' keyword refers to the context in which a function is called, allowing access to properties and methods of the object it belongs to.",
-    topics: ["JavaScript", "Context"],
+    tags: ["JavaScript", "Context"],
   },
   {
     id: "11",
     question: "What is a closure in JavaScript?",
     answer:
       "A closure is a function that retains access to its lexical scope, even when the function is executed outside that scope.",
-    topics: ["JavaScript", "Functions"],
+    tags: ["JavaScript", "Functions"],
   },
   {
     id: "12",
     question: "What is the purpose of the 'this' keyword in JavaScript?",
     answer:
       "The 'this' keyword refers to the context in which a function is called, allowing access to properties and methods of the object it belongs to.",
-    topics: ["JavaScript", "Context"],
+    tags: ["JavaScript", "Context"],
   },
 ];
 

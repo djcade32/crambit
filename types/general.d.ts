@@ -2,7 +2,7 @@ export interface Question {
   id: string;
   question: string;
   answer: string;
-  topics: string[];
+  tags: string[];
 }
 
 export interface ModalProps {

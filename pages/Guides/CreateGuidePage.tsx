@@ -2,13 +2,44 @@
 
 import Button from "@/components/general/Button";
 import QuestionsTable from "@/components/QuestionsTable/QuestionsTable";
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import CreateGuideModal from "@/modals/CreateGuideModal";
+import { useQuery } from "@tanstack/react-query";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { db } from "@/firebase/client";
+import { useUid } from "@/hooks/useUid";
 
 export const CreateGuidePage = () => {
   const router = useRouter();
+  const { uid, loading } = useUid();
+
+  const {
+    isPending,
+    isError,
+    data = [],
+    error,
+  } = useQuery({
+    queryKey: ["questions", uid], // include uid in key so it refetches per user
+    queryFn: async () => {
+      console.log("Fetching questions for user:", uid);
+      const q = query(collection(db, "questions"), where("ownerId", "==", uid));
+      const snap = await getDocs(q);
+      return snap.docs.map(
+        (d) =>
+          ({
+            id: d.id,
+            answer: d.data().answer,
+            question: d.data().question,
+            tags: d.data().tags,
+          } as Question)
+      );
+    },
+    staleTime: 60_000,
+    enabled: !!uid && !loading, // prevent running before uid is ready
+  });
+
   const [openModal, setOpenModal] = useState(false);
 
   const handleCancel = () => {
@@ -44,7 +75,7 @@ export const CreateGuidePage = () => {
       </div>
       <div className="flex flex-col items-end gap-2.5 mt-8">
         <Button preIcon={<Plus />} iconButton onClick={handleShowCreateGuideModal} />
-        <QuestionsTable />
+        {!isPending && uid && <QuestionsTable questions={data} />}
       </div>
       <div className="flex justify-end gap-8 flex-1 items-center">
         <Button label="Cancel" variant="danger" onClick={handleCancel} />

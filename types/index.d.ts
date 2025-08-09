@@ -1,8 +1,8 @@
-  interface Question {
+interface Question {
   id: string;
   question: string;
   answer: string;
-  topics: string[];
+  tags: string[];
 }
 
 interface User {

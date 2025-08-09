@@ -5,12 +5,6 @@ interface QuestionsAccordionProps {
   questions: Question[];
 }
 
-interface Question {
-  question: string;
-  answer: string;
-  topics: string[];
-}
-
 const QuestionsAccordion = ({ questions }: QuestionsAccordionProps) => {
   return (
     <div className="w-[80%] flex flex-col items-center justify-center gap-6">
@@ -19,7 +13,7 @@ const QuestionsAccordion = ({ questions }: QuestionsAccordionProps) => {
           key={index}
           question={item.question}
           answer={item.answer}
-          topics={item.topics}
+          tags={item.tags}
         />
       ))}
     </div>

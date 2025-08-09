@@ -8,15 +8,19 @@ import { DUMMY_QUESTIONS, SELECT_OPTIONS } from "@/data/dummyData";
 import QuestionsTableItem from "./QuestionsTableItem";
 import { Question } from "@/types/general";
 
-const QuestionsTable = () => {
+interface QuestionsTableProps {
+  questions?: Question[];
+}
+
+const QuestionsTable = ({ questions }: QuestionsTableProps) => {
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [filteredQuestions, setFilteredQuestions] = useState(DUMMY_QUESTIONS);
+  const [filteredQuestions, setFilteredQuestions] = useState(questions || []);
   const [selectedQuestions, setSelectedQuestions] = useState<Question[]>([]);
 
   useEffect(() => {
     // Initialize selected tags if needed
-    console.log("QuestionsTable mounted with initial tags:", selectedTags);
+    console.log("Questions mounted:", questions);
   }, [selectedTags]);
 
   return (
@@ -75,10 +79,10 @@ const QuestionsTable = () => {
       </div>
 
       <div className="flex flex-col overflow-y-auto h-full">
-        {DUMMY_QUESTIONS.map((question, index) => (
+        {filteredQuestions?.map((question, index) => (
           <div key={question.id} className="flex flex-col">
             <QuestionsTableItem question={question} />
-            {index !== DUMMY_QUESTIONS.length - 1 && (
+            {index !== filteredQuestions.length - 1 && (
               <div className="w-full h-[1px] bg-(--neutral-gray)" />
             )}
           </div>
