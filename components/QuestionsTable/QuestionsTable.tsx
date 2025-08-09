@@ -11,6 +11,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteDoc, doc } from "firebase/firestore";
 import { db } from "@/firebase/client";
+import CreateGuideModal from "@/modals/CreateGuideModal";
 
 interface QuestionsTableProps {
   questions: Question[];
@@ -22,6 +23,9 @@ const QuestionsTable = ({ questions, isLoading }: QuestionsTableProps) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredQuestions, setFilteredQuestions] = useState(questions || []);
   const [selectedQuestions, setSelectedQuestions] = useState<Question[]>([]);
+  const [openModal, setOpenModal] = useState(false);
+  const [questionToEdit, setQuestionToEdit] = useState<Question | null>(null);
+
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
@@ -40,6 +44,11 @@ const QuestionsTable = ({ questions, isLoading }: QuestionsTableProps) => {
 
   const handleDelete = (id: string) => {
     mutation.mutate(id);
+  };
+
+  const handleEdit = (question: Question) => {
+    setQuestionToEdit(question);
+    setOpenModal(true);
   };
 
   if (isLoading) {
@@ -104,7 +113,12 @@ const QuestionsTable = ({ questions, isLoading }: QuestionsTableProps) => {
       <div className="flex flex-col overflow-y-auto h-full divide-y divide-(--neutral-gray)">
         {!!questions.length && !isLoading ? (
           questions?.map((question) => (
-            <QuestionsTableItem key={question.id} question={question} onDelete={handleDelete} />
+            <QuestionsTableItem
+              key={question.id}
+              question={question}
+              onDelete={handleDelete}
+              onEdit={() => handleEdit(question)}
+            />
           ))
         ) : (
           <div className="flex items-center justify-center h-full">
@@ -112,6 +126,7 @@ const QuestionsTable = ({ questions, isLoading }: QuestionsTableProps) => {
           </div>
         )}
       </div>
+      <CreateGuideModal open={openModal} setOpen={setOpenModal} question={questionToEdit} />
     </div>
   );
 };

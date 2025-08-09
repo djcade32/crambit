@@ -5,6 +5,7 @@ export interface QuestionsState {
   setQuestions: (questions: Question[]) => void;
   addQuestion: (question: Question) => void;
   removeQuestion: (questionId: string) => void;
+  updateQuestion: (questionId: string, updatedQuestion: Question) => void;
 }
 
 const useQuestionsStore = create<QuestionsState>((set, get) => ({
@@ -16,7 +17,15 @@ const useQuestionsStore = create<QuestionsState>((set, get) => ({
 
   addQuestion: (question: Question) => {
     set((state) => ({
-      questions: [...state.questions, question],
+      questions: [question, ...state.questions],
+    }));
+  },
+
+  updateQuestion: (questionId: string, updatedQuestion: Question) => {
+    set((state) => ({
+      questions: state.questions.map((q) =>
+        q.id === questionId ? { ...q, ...updatedQuestion } : q
+      ),
     }));
   },
 
