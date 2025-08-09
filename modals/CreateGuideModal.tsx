@@ -62,7 +62,7 @@ const CreateGuideModal = ({ open, setOpen, question }: ModalProps) => {
       setAnswerValue(initialValue);
       editor.children = initialValue;
     }
-  }, [isEditMode]);
+  }, [isEditMode, open]);
 
   const handleSubmit = async () => {
     if (!validateForm()) return;
