@@ -102,9 +102,15 @@ const QuestionsTable = ({ questions, isLoading }: QuestionsTableProps) => {
       </div>
 
       <div className="flex flex-col overflow-y-auto h-full divide-y divide-(--neutral-gray)">
-        {questions?.map((question) => (
-          <QuestionsTableItem key={question.id} question={question} onDelete={handleDelete} />
-        ))}
+        {!!questions.length && !isLoading ? (
+          questions?.map((question) => (
+            <QuestionsTableItem key={question.id} question={question} onDelete={handleDelete} />
+          ))
+        ) : (
+          <div className="flex items-center justify-center h-full">
+            <p className="text-(--dark-gray) text-lg">No questions available</p>
+          </div>
+        )}
       </div>
     </div>
   );
