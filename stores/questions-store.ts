@@ -21,9 +21,10 @@ const useQuestionsStore = create<QuestionsState>((set, get) => ({
   },
 
   removeQuestion: (questionId: string) => {
-    set((state) => ({
-      questions: state.questions.filter((q) => q.id !== questionId),
-    }));
+    // const { questions } = get();
+    // const updatedQuestions = questions.filter((q) => q.id !== questionId);
+    // set({ questions: updatedQuestions });
+    // console.log(`Question with ID ${questionId} removed from local state`);
   },
 }));
 

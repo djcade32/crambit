@@ -8,7 +8,9 @@ import { SELECT_OPTIONS } from "@/data/dummyData";
 import QuestionsTableItem from "./QuestionsTableItem";
 import { Question } from "@/types/general";
 import { Skeleton } from "@/components/ui/skeleton";
-import useQuestionsStore from "@/stores/questions-store";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { deleteDoc, doc } from "firebase/firestore";
+import { db } from "@/firebase/client";
 
 interface QuestionsTableProps {
   questions: Question[];
@@ -20,7 +22,25 @@ const QuestionsTable = ({ questions, isLoading }: QuestionsTableProps) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredQuestions, setFilteredQuestions] = useState(questions || []);
   const [selectedQuestions, setSelectedQuestions] = useState<Question[]>([]);
-  const { removeQuestion } = useQuestionsStore();
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation({
+    mutationFn: async (id: string) => {
+      console.log(`Deleting question with ID: ${id}`);
+      await deleteDoc(doc(db, "questions", id));
+      console.log(`Question with ID ${id} deleted from Firestore`);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["questions"] });
+    },
+    onError: (error) => {
+      console.error("Error deleting question:", error);
+    },
+  });
+
+  const handleDelete = (id: string) => {
+    mutation.mutate(id);
+  };
 
   if (isLoading) {
     return <Skeleton className="h-[500px] w-full bg-(--neutral-gray)" />;
@@ -83,7 +103,7 @@ const QuestionsTable = ({ questions, isLoading }: QuestionsTableProps) => {
 
       <div className="flex flex-col overflow-y-auto h-full divide-y divide-(--neutral-gray)">
         {questions?.map((question) => (
-          <QuestionsTableItem key={question.id} question={question} onDelete={removeQuestion} />
+          <QuestionsTableItem key={question.id} question={question} onDelete={handleDelete} />
         ))}
       </div>
     </div>
