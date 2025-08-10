@@ -16,7 +16,7 @@ const useCreateGuideStore = create<CreateGuideState>((set, get) => ({
 
   selectAllQuestions: (questions: Question[]) => {
     const { setSelectedQuestions } = get();
-    setSelectedQuestions(questions);
+    set({ selectedQuestions: questions });
   },
 
   deselectAllQuestions: () => {
