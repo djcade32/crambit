@@ -1,13 +1,14 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useState } from "react";
 import isHotkey from "is-hotkey";
-import { Editable, Slate, RenderElementProps, RenderLeafProps } from "slate-react";
-import { Descendant, Transforms } from "slate";
+import { Editable, Slate, RenderElementProps, RenderLeafProps, ReactEditor } from "slate-react";
+import { BaseEditor, Descendant } from "slate";
 
 import { toggleMark } from "./helpers";
 import MarkButton from "./components/MarkButton";
 import BlockButton from "./components/BlockButton";
 import styles from "./slateEditor.module.css";
 import EditorToolbar from "./components/EditorToolbar";
+import { HistoryEditor } from "slate-history";
 
 const HOTKEYS = {
   "mod+b": "bold",
@@ -19,7 +20,7 @@ const HOTKEYS = {
 interface SlateEditorProps {
   answer: any;
   setAnswerValue: (value: Descendant[]) => void;
-  editor: any;
+  editor: BaseEditor & ReactEditor & HistoryEditor;
   onChange?: () => void;
 }
 
@@ -62,13 +63,13 @@ const Element = ({ attributes, children, element }: RenderElementProps) => {
       );
     case "heading-one":
       return (
-        <h2 style={style} {...attributes}>
+        <h2 className="text-3xl" style={style} {...attributes}>
           {children}
         </h2>
       );
     case "heading-two":
       return (
-        <h3 style={style} {...attributes}>
+        <h3 className="text-2xl" style={style} {...attributes}>
           {children}
         </h3>
       );
@@ -117,11 +118,6 @@ const SlateEditor = ({ answer, setAnswerValue, editor, onChange }: SlateEditorPr
   // Needed to force re-render when the note changes
   const [debounceTimeout, setDebounceTimeout] = useState<NodeJS.Timeout | null>(null);
 
-  // Reset selection when the note changes
-  useEffect(() => {
-    Transforms.deselect(editor); // Clear selection
-  }, [answer.id, editor]);
-
   const handleOnChange = (newValue: Descendant[]) => {
     clearTimeout(debounceTimeout as NodeJS.Timeout);
     setDebounceTimeout(
@@ -136,7 +132,7 @@ const SlateEditor = ({ answer, setAnswerValue, editor, onChange }: SlateEditorPr
 
   return (
     <Slate
-      // key={noteId} // Force re-render when the note changes
+      // key={answer} // Force re-render when the note changes
       editor={editor}
       initialValue={answer}
       onChange={handleOnChange}

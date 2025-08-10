@@ -7,14 +7,23 @@ interface QuestionsTableItemProps {
   question: Question;
   onDelete: (id: string) => void;
   onEdit: (question: Question) => void;
+  selected: boolean; // Optional prop to indicate if the question is selected
+  onSelect?: (question: Question) => void;
 }
 
-const QuestionsTableItem = ({ question, onDelete, onEdit }: QuestionsTableItemProps) => {
+const QuestionsTableItem = ({
+  question,
+  onDelete,
+  onEdit,
+  onSelect,
+  selected,
+}: QuestionsTableItemProps) => {
   const { question: questionText } = question;
+
   return (
     <div className="group flex items-center justify-between py-2 pl-3.5 pr-6 hover:bg-(--neutral-gray) transition-colors duration-200">
       <div className="flex items-center gap-5">
-        <CheckMark onClick={() => console.log("Question checked")} />
+        <CheckMark onClick={() => onSelect && onSelect(question)} value={selected} />
         <p className="text-lg">{questionText}</p>
       </div>
       <div className="flex items-center gap-4 opacity-0 group-hover:opacity-100 transition-opacity duration-200">

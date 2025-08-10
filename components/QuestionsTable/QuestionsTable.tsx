@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import CheckMark from "../general/CheckMark";
 import { Search, ListFilter } from "lucide-react";
 import Select from "../general/Select";
@@ -12,6 +12,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteDoc, doc } from "firebase/firestore";
 import { db } from "@/firebase/client";
 import CreateGuideModal from "@/modals/CreateGuideModal";
+import useCreateGuideStore from "@/stores/create-guide-store";
 
 interface QuestionsTableProps {
   questions: Question[];
@@ -22,9 +23,12 @@ const QuestionsTable = ({ questions, isLoading }: QuestionsTableProps) => {
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredQuestions, setFilteredQuestions] = useState(questions || []);
-  const [selectedQuestions, setSelectedQuestions] = useState<Question[]>([]);
   const [openModal, setOpenModal] = useState(false);
   const [questionToEdit, setQuestionToEdit] = useState<Question | null>(null);
+  const { setSelectedQuestions, selectedQuestions, selectAllQuestions, deselectAllQuestions } =
+    useCreateGuideStore();
+  const isAbleToSelectAll =
+    selectedTags.length !== 0 || searchQuery.trim().length !== 0 || selectedQuestions.length > 0;
 
   const queryClient = useQueryClient();
 
@@ -42,8 +46,20 @@ const QuestionsTable = ({ questions, isLoading }: QuestionsTableProps) => {
     },
   });
 
+  useEffect(() => {
+    const filtered = questions.filter((question) => {
+      const matchesTags = selectedTags.length
+        ? question.tags.some((tag) => selectedTags.includes(tag))
+        : true;
+      const matchesSearch = question.question.toLowerCase().includes(searchQuery.toLowerCase());
+      return matchesTags && matchesSearch;
+    });
+    setFilteredQuestions(filtered);
+  }, [questions, selectedTags, searchQuery]);
+
   const handleDelete = (id: string) => {
     mutation.mutate(id);
+    setSelectedQuestions(selectedQuestions.filter((q) => q.id !== id));
   };
 
   const handleEdit = (question: Question) => {
@@ -55,40 +71,63 @@ const QuestionsTable = ({ questions, isLoading }: QuestionsTableProps) => {
     return <Skeleton className="h-[500px] w-full bg-(--neutral-gray)" />;
   }
 
+  const handleSelected = (question: Question) => {
+    if (selectedQuestions.some((q) => q.id === question.id)) {
+      setSelectedQuestions(selectedQuestions.filter((q) => q.id !== question.id));
+    } else {
+      setSelectedQuestions([...selectedQuestions, question]);
+    }
+  };
+
+  const handleSelectAll = () => {
+    if (selectedQuestions.length > 0) {
+      deselectAllQuestions();
+    } else {
+      selectAllQuestions(filteredQuestions);
+    }
+  };
+
   return (
-    <div
-      className="
+    <>
+      <div
+        className="
         flex flex-col
         w-full h-[500px]
         bg-white
         rounded-[5px] border-1 border-(--neutral-gray)
         dark:bg-(--neutral-gray)
       "
-    >
-      <div
-        className="
+      >
+        <div
+          className="
           flex
           p-3.5
           border-b-1 border-b-(--neutral-gray)
           items-center gap-5
         "
-      >
-        <div>
-          <CheckMark onClick={() => console.log("clicked")} disabled={!selectedQuestions.length} />
-        </div>
-        <div className="w-[1px] h-[40px] bg-(--neutral-gray)" />
-        <div
-          className="
+        >
+          <div>
+            <CheckMark
+              onClick={handleSelectAll}
+              disabled={!isAbleToSelectAll}
+              value={!!selectedQuestions.length}
+            />
+          </div>
+          <div className="w-[1px] h-[40px] bg-(--neutral-gray)" />
+          <div
+            className="
             flex flex-1
             min-w-[200px]
             items-center gap-2
           "
-        >
-          <Search className="text-(--black) dark:text-(--white)" />
-          <input
-            type="text"
-            placeholder="Search Question"
-            className="
+          >
+            <Search className="text-(--black) dark:text-(--white)" />
+            <input
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              type="text"
+              placeholder="Search Question"
+              className="
               w-full
               p-2
               text-lg text-(--black)
@@ -96,38 +135,41 @@ const QuestionsTable = ({ questions, isLoading }: QuestionsTableProps) => {
               transition-colors
               dark:text-(--white) placeholder:text-(--dark-gray) selection:border-0 focus:outline-none focus:ring-0 caret-(--black) dark:caret-(--white) hover:bg-(--neutral-gray)/60 duration-200 focus:bg-(--neutral-gray)/60
             "
-          />
-        </div>
-        <div className="w-[1px] h-[40px] bg-(--neutral-gray)" />
-        <div className="flex items-center gap-2">
-          <ListFilter className="text-(--black) dark:text-(--white)" />
-          <Select
-            options={SELECT_OPTIONS}
-            value={selectedTags}
-            setValues={setSelectedTags}
-            width={700}
-          />
-        </div>
-      </div>
-
-      <div className="flex flex-col overflow-y-auto h-full divide-y divide-(--neutral-gray)">
-        {!!questions.length && !isLoading ? (
-          questions?.map((question) => (
-            <QuestionsTableItem
-              key={question.id}
-              question={question}
-              onDelete={handleDelete}
-              onEdit={() => handleEdit(question)}
             />
-          ))
-        ) : (
-          <div className="flex items-center justify-center h-full">
-            <p className="text-(--dark-gray) text-lg">No questions available</p>
           </div>
-        )}
+          <div className="w-[1px] h-[40px] bg-(--neutral-gray)" />
+          <div className="flex items-center gap-2">
+            <ListFilter className="text-(--black) dark:text-(--white)" />
+            <Select
+              options={SELECT_OPTIONS}
+              value={selectedTags}
+              setValues={setSelectedTags}
+              width={700}
+            />
+          </div>
+        </div>
+        <div className="flex flex-col overflow-y-auto h-full divide-y divide-(--neutral-gray)">
+          {!!filteredQuestions.length && !isLoading ? (
+            filteredQuestions?.map((question) => (
+              <QuestionsTableItem
+                key={question.id}
+                question={question}
+                onDelete={handleDelete}
+                onEdit={() => handleEdit(question)}
+                onSelect={() => handleSelected(question)}
+                selected={selectedQuestions.some((q) => q.id === question.id)}
+              />
+            ))
+          ) : (
+            <div className="flex items-center justify-center h-full">
+              <p className="text-(--dark-gray) text-lg">No questions available</p>
+            </div>
+          )}
+        </div>
       </div>
+      <p className="text-(--dark-gray)">{`Showing ${filteredQuestions.length} of ${questions.length}`}</p>
       <CreateGuideModal open={openModal} setOpen={setOpenModal} question={questionToEdit} />
-    </div>
+    </>
   );
 };
 

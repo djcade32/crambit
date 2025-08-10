@@ -13,6 +13,7 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { createEditor, Descendant } from "slate";
 import { withHistory } from "slate-history";
 import { withReact } from "slate-react";
+import { Node } from "slate";
 
 type FormError = {
   field: string;
@@ -60,6 +61,7 @@ const CreateGuideModal = ({ open, setOpen, question }: ModalProps) => {
       setQuestionValue("");
       setSelectedTags([]);
       setAnswerValue(initialValue);
+      editor.selection = null; // Clear selection
       editor.children = initialValue;
     }
   }, [isEditMode, open]);
@@ -115,8 +117,7 @@ const CreateGuideModal = ({ open, setOpen, question }: ModalProps) => {
     if (selectedTags.length === 0) {
       errors.push({ field: "tags", message: "At least one tag is required." });
     }
-    /* @ts-ignore */
-    if (editor.children.length === 0 || !editor.children[0].children[0].text.trim()) {
+    if (editor.children.length === 1 && Node.string(editor) === "") {
       errors.push({ field: "answer", message: "Answer is required." });
     }
     setFormError(errors);
@@ -126,8 +127,9 @@ const CreateGuideModal = ({ open, setOpen, question }: ModalProps) => {
   const handleClose = () => {
     setQuestionValue("");
     setSelectedTags([]);
-    editor.children = initialValue; // Reset Slate editor content
     setAnswerValue(initialValue);
+    editor.selection = null; // Clear selection
+    editor.children = initialValue;
     setFormError([]);
   };
 
