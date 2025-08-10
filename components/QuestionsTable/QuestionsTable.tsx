@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import CheckMark from "../general/CheckMark";
 import { Search, ListFilter } from "lucide-react";
 import Select from "../general/Select";
@@ -41,6 +41,17 @@ const QuestionsTable = ({ questions, isLoading }: QuestionsTableProps) => {
       console.error("Error deleting question:", error);
     },
   });
+
+  useMemo(() => {
+    const filtered = questions.filter((question) => {
+      const matchesTags = selectedTags.length
+        ? question.tags.some((tag) => selectedTags.includes(tag))
+        : true;
+      const matchesSearch = question.question.toLowerCase().includes(searchQuery.toLowerCase());
+      return matchesTags && matchesSearch;
+    });
+    setFilteredQuestions(filtered);
+  }, [questions, selectedTags, searchQuery]);
 
   const handleDelete = (id: string) => {
     mutation.mutate(id);
@@ -86,6 +97,8 @@ const QuestionsTable = ({ questions, isLoading }: QuestionsTableProps) => {
         >
           <Search className="text-(--black) dark:text-(--white)" />
           <input
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
             type="text"
             placeholder="Search Question"
             className="
@@ -111,8 +124,8 @@ const QuestionsTable = ({ questions, isLoading }: QuestionsTableProps) => {
       </div>
 
       <div className="flex flex-col overflow-y-auto h-full divide-y divide-(--neutral-gray)">
-        {!!questions.length && !isLoading ? (
-          questions?.map((question) => (
+        {!!filteredQuestions.length && !isLoading ? (
+          filteredQuestions?.map((question) => (
             <QuestionsTableItem
               key={question.id}
               question={question}
