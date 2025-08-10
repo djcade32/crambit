@@ -1,5 +1,6 @@
 import { create } from "zustand";
-import useQuestionsStore from "./questions-store";
+import { Question } from "@/types";
+
 export interface CreateGuideState {
   selectedQuestions: Question[];
   setSelectedQuestions: (questions: Question[]) => void;
@@ -15,7 +16,6 @@ const useCreateGuideStore = create<CreateGuideState>((set, get) => ({
   },
 
   selectAllQuestions: (questions: Question[]) => {
-    const { setSelectedQuestions } = get();
     set({ selectedQuestions: questions });
   },
 

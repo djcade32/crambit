@@ -14,4 +14,5 @@ export type GuideModel = {
   ownerId: string;
   title: string;
   progress: number;
+  questionsCount: number;
 };

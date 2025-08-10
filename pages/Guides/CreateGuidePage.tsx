@@ -23,6 +23,8 @@ import { useUid } from "@/hooks/useUid";
 import useQuestionsStore from "@/stores/questions-store";
 import useCreateGuideStore from "@/stores/create-guide-store";
 import { GuideModel } from "@/types/db_models";
+import { Question } from "@/types";
+import useGuidesStore from "@/stores/guides-store";
 
 export const CreateGuidePage = () => {
   const router = useRouter();
@@ -75,12 +77,14 @@ export const CreateGuidePage = () => {
         console.error("User not authenticated");
         return;
       }
+      const date = new Date();
       const newGuide: GuideModel = {
-        _createdAt: new Date(),
-        _updatedAt: new Date(),
+        _createdAt: date,
+        _updatedAt: date,
         ownerId: uid,
-        title: guideName,
+        title: guideName.trim(),
         progress: 0,
+        questionsCount: selectedQuestions.length,
       };
       const docRef = doc(collection(db, "guides"));
       newGuide.id = docRef.id; // Set the ID before adding to the collection
@@ -91,6 +95,13 @@ export const CreateGuidePage = () => {
         docRef.id,
         selectedQuestions.map((q) => q.id)
       );
+      // Add guide to Zustand store
+      useGuidesStore.getState().addGuide({
+        id: docRef.id,
+        title: guideName,
+        questionsCount: selectedQuestions.length,
+        lastUpdated: date,
+      });
 
       // Reset guide name and redirect
       setGuideName("");

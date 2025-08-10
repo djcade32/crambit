@@ -7,7 +7,7 @@ import { auth, db } from "@/firebase/client";
 import { useTheme } from "@/providers/ThemeProvider";
 import useQuestionsStore from "@/stores/questions-store";
 import { QuestionModel } from "@/types/db_models";
-import { ModalActionButtons, ModalProps } from "@/types/general";
+import { ModalActionButtons, ModalProps } from "@/types";
 import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { createEditor, Descendant } from "slate";
