@@ -36,7 +36,6 @@ const GuidesPage = () => {
           } as Guide)
       );
 
-      console.log("Fetched guides:", guides);
       setGuides(guides); // Update the Zustand store with fetched guides
       return guides;
     },
@@ -52,24 +51,41 @@ const GuidesPage = () => {
     <div className="page-container">
       <div className="py-9 flex flex-col items-center gap-5">
         <h1 className="text-3xl text-center font-semibold">Create a Guide</h1>
-        <Button dataTestid="create-guide-button" label="Create" onClick={handleCreateGuide} />
+        {!!guides.length && (
+          <Button dataTestid="create-guide-button" label="Create" onClick={handleCreateGuide} />
+        )}
       </div>
-      <div className="grid grid-cols-3 gap-14 overflow-y-scroll w-full mx-auto p-7">
-        {guides.map((guide, index) => (
-          <StudyGuide
-            key={index}
-            id={guide.id}
-            title={guide.title}
-            questionsCount={guide.questionsCount}
-            lastUpdated={guide.lastUpdated.toLocaleDateString("en-US", {
-              month: "2-digit",
-              day: "numeric",
-              year: "numeric",
-            })}
-            createGuide
+      {!!guides.length ? (
+        <div className="grid grid-cols-3 gap-14 overflow-y-scroll w-full mx-auto p-7">
+          {guides.map((guide, index) => (
+            <StudyGuide
+              key={index}
+              id={guide.id}
+              title={guide.title}
+              questionsCount={guide.questionsCount}
+              lastUpdated={guide.lastUpdated.toLocaleDateString("en-US", {
+                month: "2-digit",
+                day: "numeric",
+                year: "numeric",
+              })}
+              createGuide
+            />
+          ))}
+        </div>
+      ) : (
+        <div className="flex flex-col items-center justify-center h-full">
+          <p className="text-lg text-gray-500 text-center mb-3">
+            No guides available.
+            <br />
+            Create one to start studying!
+          </p>
+          <Button
+            dataTestid="create-guide-button"
+            label="Create Guide"
+            onClick={handleCreateGuide}
           />
-        ))}
-      </div>
+        </div>
+      )}
     </div>
   );
 };
