@@ -61,6 +61,7 @@ const CreateGuideModal = ({ open, setOpen, question }: ModalProps) => {
       setQuestionValue("");
       setSelectedTags([]);
       setAnswerValue(initialValue);
+      editor.selection = null; // Clear selection
       editor.children = initialValue;
     }
   }, [isEditMode, open]);
@@ -126,8 +127,9 @@ const CreateGuideModal = ({ open, setOpen, question }: ModalProps) => {
   const handleClose = () => {
     setQuestionValue("");
     setSelectedTags([]);
-    editor.children = initialValue; // Reset Slate editor content
     setAnswerValue(initialValue);
+    editor.selection = null; // Clear selection
+    editor.children = initialValue;
     setFormError([]);
   };
 
