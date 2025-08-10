@@ -46,7 +46,7 @@ const QuestionsTable = ({ questions, isLoading }: QuestionsTableProps) => {
     },
   });
 
-  useMemo(() => {
+  useEffect(() => {
     const filtered = questions.filter((question) => {
       const matchesTags = selectedTags.length
         ? question.tags.some((tag) => selectedTags.includes(tag))
