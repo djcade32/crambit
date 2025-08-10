@@ -1,16 +1,24 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Check, Minus } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface CheckMarkProps {
   onClick: () => void;
   disabled?: boolean;
+  value?: boolean; // Optional prop to control the initial checked state
 }
 
-const CheckMark = ({ onClick, disabled = false }: CheckMarkProps) => {
-  const [checked, setChecked] = useState(false);
+const CheckMark = ({ onClick, disabled = false, value }: CheckMarkProps) => {
+  const [checked, setChecked] = useState(value || false);
+
+  useEffect(() => {
+    if (value !== undefined) {
+      setChecked(value);
+    }
+  }, [value]);
+
   const handleClick = () => {
     setChecked(!checked);
     onClick();

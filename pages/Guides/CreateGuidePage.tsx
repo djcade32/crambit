@@ -11,11 +11,13 @@ import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
 import { db } from "@/firebase/client";
 import { useUid } from "@/hooks/useUid";
 import useQuestionsStore from "@/stores/questions-store";
+import useCreateGuideStore from "@/stores/create-guide-store";
 
 export const CreateGuidePage = () => {
   const router = useRouter();
   const { uid, loading } = useUid();
   const { setQuestions, questions } = useQuestionsStore();
+  const { selectedQuestions } = useCreateGuideStore();
 
   const { isPending } = useQuery({
     queryKey: ["questions", uid], // include uid in key so it refetches per user
@@ -73,7 +75,7 @@ export const CreateGuidePage = () => {
         </div>
         <div className="flex flex-col justify-start items-end gap-2">
           <p className="text-2xl text-(--dark-gray)">Questions</p>
-          <p className="text-2xl">2</p>
+          <p className="text-2xl">{selectedQuestions.length}</p>
         </div>
       </div>
       <div className="flex flex-col items-end gap-2.5 mt-8">
