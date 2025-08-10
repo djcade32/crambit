@@ -1,6 +1,5 @@
 import { create } from "zustand";
 import useQuestionsStore from "./questions-store";
-
 export interface CreateGuideState {
   selectedQuestions: Question[];
   setSelectedQuestions: (questions: Question[]) => void;
