@@ -7,17 +7,29 @@ import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import CreateGuideModal from "@/modals/CreateGuideModal";
 import { useQuery } from "@tanstack/react-query";
-import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
-import { db } from "@/firebase/client";
+import {
+  arrayUnion,
+  collection,
+  doc,
+  getDocs,
+  orderBy,
+  query,
+  setDoc,
+  where,
+  writeBatch,
+} from "firebase/firestore";
+import { auth, db } from "@/firebase/client";
 import { useUid } from "@/hooks/useUid";
 import useQuestionsStore from "@/stores/questions-store";
 import useCreateGuideStore from "@/stores/create-guide-store";
+import { GuideModel } from "@/types/db_models";
 
 export const CreateGuidePage = () => {
   const router = useRouter();
   const { uid, loading } = useUid();
   const { setQuestions, questions } = useQuestionsStore();
-  const { selectedQuestions } = useCreateGuideStore();
+  const { selectedQuestions, setSelectedQuestions } = useCreateGuideStore();
+  const [guideName, setGuideName] = useState("");
 
   const { isPending } = useQuery({
     queryKey: ["questions", uid], // include uid in key so it refetches per user
@@ -54,6 +66,54 @@ export const CreateGuidePage = () => {
     setOpenModal(true);
   };
 
+  const handleCreateGuide = () => {
+    console.log("Creating guide with name:", guideName);
+    try {
+      // Add guide to Firebase
+      const uid = auth.currentUser?.uid;
+      if (!uid) {
+        console.error("User not authenticated");
+        return;
+      }
+      const newGuide: GuideModel = {
+        _createdAt: new Date(),
+        _updatedAt: new Date(),
+        ownerId: uid,
+        title: guideName,
+        progress: 0,
+      };
+      const docRef = doc(collection(db, "guides"));
+      newGuide.id = docRef.id; // Set the ID before adding to the collection
+      setDoc(docRef, newGuide);
+
+      // Add selected questions to the guide
+      addGuideToQuestions(
+        docRef.id,
+        selectedQuestions.map((q) => q.id)
+      );
+
+      // Reset guide name and redirect
+      setGuideName("");
+      setSelectedQuestions([]);
+      router.push("/guides");
+      console.log("Guide created successfully:", docRef.id);
+    } catch (error) {
+      console.error("Error creating guide:", error);
+      return;
+    }
+  };
+
+  async function addGuideToQuestions(guideId: string, questionIds: string[]) {
+    const batch = writeBatch(db);
+
+    questionIds.forEach((qid) => {
+      const ref = doc(db, "questions", qid);
+      batch.update(ref, { guideIds: arrayUnion(guideId) });
+    });
+
+    await batch.commit(); // single request for up to 500 updates
+  }
+
   return (
     <div className="page-container px-7 pt-2.5">
       <h1 className="text-3xl font-semibold mb-4">Create Guide</h1>
@@ -69,6 +129,8 @@ export const CreateGuidePage = () => {
               className="w-full text-2xl focus:outline-none focus:bg-(--neutral-gray)/60 text-(--black) placeholder:text-(--dark-gray) dark:text-(--white) hover:bg-(--neutral-gray)/60 duration-200 transition-colors rounded-[5px] p-2"
               placeholder="Enter guide name"
               autoComplete="off"
+              value={guideName}
+              onChange={(e) => setGuideName(e.target.value)}
             />
           </div>
           <p className="text-lg text-(--dark-gray)">For an example: Front-end Guide</p>
@@ -84,7 +146,12 @@ export const CreateGuidePage = () => {
       </div>
       <div className="flex justify-end gap-8 flex-1 items-center">
         <Button label="Cancel" variant="danger" onClick={handleCancel} />
-        <Button label="Create" variant="primary" onClick={() => console.log("Guide created")} />
+        <Button
+          label="Create"
+          variant="primary"
+          onClick={handleCreateGuide}
+          disabled={guideName.trim().length === 0 || selectedQuestions.length === 0}
+        />
       </div>
       <CreateGuideModal open={openModal} setOpen={setOpenModal} />
     </div>

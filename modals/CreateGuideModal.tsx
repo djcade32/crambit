@@ -81,6 +81,7 @@ const CreateGuideModal = ({ open, setOpen, question }: ModalProps) => {
         question: questionValue,
         tags: selectedTags,
         answer: JSON.stringify(answerValue),
+        guideIds: [],
       };
 
       if (isEditMode() && question) {
