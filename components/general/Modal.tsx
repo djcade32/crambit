@@ -1,7 +1,7 @@
 import React from "react";
 import { X } from "lucide-react";
 import Button from "./Button";
-import { ModalProps } from "@/types/general";
+import { ModalProps } from "@/types";
 import { cn } from "@/lib/utils";
 
 const Modal = ({ children, actionButtons, onClose, open, setOpen }: ModalProps) => {

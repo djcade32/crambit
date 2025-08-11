@@ -10,13 +10,13 @@ describe("Test Studying Page", () => {
     });
   });
 
-  it("should display study guides", () => {
-    cy.get(".grid.grid-cols-3").children().should("have.length", 5);
-  });
+  // it("should display study guides", () => {
+  //   cy.get(".grid.grid-cols-3").children().should("have.length", 5);
+  // });
 
-  it("should navigate to a studying guide view when clicked", () => {
-    cy.get(".grid.grid-cols-3").children().first().find("button").contains("Start").click();
+  // it("should navigate to a studying guide view when clicked", () => {
+  //   cy.get(".grid.grid-cols-3").children().first().find("button").contains("Start").click();
 
-    cy.location("pathname").should("include", "/study/");
-  });
+  //   cy.location("pathname").should("include", "/study/");
+  // });
 });

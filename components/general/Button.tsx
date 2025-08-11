@@ -30,7 +30,7 @@ const Button = ({
   // Function to determine button classes based on variant
   const getButtonClasses = () => {
     if (disabled) {
-      return "button-disabled"; // Return disabled class if button is disabled
+      return "base-button button-disabled"; // Return disabled class if button is disabled
     }
     let baseClass = "base-button"; // Start with base button class
 
