@@ -68,7 +68,7 @@ export const CreateGuidePage = () => {
     setOpenModal(true);
   };
 
-  const handleCreateGuide = () => {
+  const handleCreateGuide = async () => {
     console.log("Creating guide with name:", guideName);
     try {
       // Add guide to Firebase
@@ -88,10 +88,10 @@ export const CreateGuidePage = () => {
       };
       const docRef = doc(collection(db, "guides"));
       newGuide.id = docRef.id; // Set the ID before adding to the collection
-      setDoc(docRef, newGuide);
+      await setDoc(docRef, newGuide);
 
       // Add selected questions to the guide
-      addGuideToQuestions(
+      await addGuideToQuestions(
         docRef.id,
         selectedQuestions.map((q) => q.id)
       );

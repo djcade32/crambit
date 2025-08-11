@@ -2,47 +2,17 @@
 
 import Button from "@/components/general/Button";
 import StudyGuide from "@/components/StudyGuide";
-import { DUMMY_STUDY_GUIDES } from "@/data/dummyData";
 import React from "react";
 import { useRouter } from "next/navigation";
-import { useQuery } from "@tanstack/react-query";
-import { useUid } from "@/hooks/useUid";
-import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
-import { db } from "@/firebase/client";
-import { Guide } from "@/types";
 import useGuidesStore from "@/stores/guides-store";
+import useQueryGuides from "@/hooks/useQueryGuides";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const GuidesPage = () => {
   const router = useRouter();
-  const { uid, loading } = useUid();
-  const { setGuides, guides } = useGuidesStore();
+  const { guides } = useGuidesStore();
 
-  const { isPending } = useQuery({
-    queryKey: ["guides", uid], // include uid in key so it refetches per user
-    queryFn: async () => {
-      const q = query(
-        collection(db, "guides"),
-        where("ownerId", "==", uid),
-        orderBy("_updatedAt", "desc")
-      );
-      const snap = await getDocs(q);
-      const guides = snap.docs.map(
-        (d) =>
-          ({
-            id: d.id,
-            title: d.data().title,
-            questionsCount: d.data().questionsCount,
-            lastUpdated: d.data()._updatedAt.toDate(),
-          } as Guide)
-      );
-
-      setGuides(guides); // Update the Zustand store with fetched guides
-      return guides;
-    },
-    staleTime: 60_000,
-    enabled: !!uid && !loading, // prevent running before uid is ready
-  });
-
+  const { isPending } = useQueryGuides();
   const handleCreateGuide = () => {
     router.push("/guides/create");
   };
@@ -51,9 +21,7 @@ const GuidesPage = () => {
     <div className="page-container">
       <div className="py-9 flex flex-col items-center gap-5">
         <h1 className="text-3xl text-center font-semibold">Create a Guide</h1>
-        {!!guides.length && (
-          <Button dataTestid="create-guide-button" label="Create" onClick={handleCreateGuide} />
-        )}
+        <Button dataTestid="create-guide-button" label="Create" onClick={handleCreateGuide} />
       </div>
       {!!guides.length ? (
         <div className="grid grid-cols-3 gap-14 overflow-y-scroll w-full mx-auto p-7">
@@ -71,6 +39,10 @@ const GuidesPage = () => {
               createGuide
             />
           ))}
+        </div>
+      ) : isPending ? (
+        <div className="grid grid-cols-3 gap-14 overflow-y-scroll w-full mx-auto p-7">
+          <Skeleton className="h-[140px] bg-(--light-gray) shadow-md p-2.5 border-1 border-(--neutral-gray) rounded-[5px]" />
         </div>
       ) : (
         <div className="flex flex-col items-center justify-center h-full">

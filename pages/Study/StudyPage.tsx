@@ -2,46 +2,18 @@
 
 import Button from "@/components/general/Button";
 import StudyGuide from "@/components/StudyGuide";
-import { db } from "@/firebase/client";
-import { useUid } from "@/hooks/useUid";
+import { Skeleton } from "@/components/ui/skeleton";
+import useQueryGuides from "@/hooks/useQueryGuides";
 import useGuidesStore from "@/stores/guides-store";
-import { Guide } from "@/types";
-import { useQuery } from "@tanstack/react-query";
-import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 import React from "react";
 
 const StudyPage = () => {
   const router = useRouter();
 
-  const { uid, loading } = useUid();
-  const { setGuides, guides } = useGuidesStore();
+  const { guides } = useGuidesStore();
 
-  const { isPending } = useQuery({
-    queryKey: ["guides", uid], // include uid in key so it refetches per user
-    queryFn: async () => {
-      const q = query(
-        collection(db, "guides"),
-        where("ownerId", "==", uid),
-        orderBy("_updatedAt", "desc")
-      );
-      const snap = await getDocs(q);
-      const guides = snap.docs.map(
-        (d) =>
-          ({
-            id: d.id,
-            title: d.data().title,
-            questionsCount: d.data().questionsCount,
-            lastUpdated: d.data()._updatedAt.toDate(),
-          } as Guide)
-      );
-
-      setGuides(guides); // Update the Zustand store with fetched guides
-      return guides;
-    },
-    staleTime: 60_000,
-    enabled: !!uid && !loading, // prevent running before uid is ready
-  });
+  const { isPending } = useQueryGuides();
 
   return (
     <div className="page-container">
@@ -63,6 +35,10 @@ const StudyPage = () => {
               })}
             />
           ))}
+        </div>
+      ) : isPending ? (
+        <div className="grid grid-cols-3 gap-14 overflow-y-scroll w-full mx-auto p-7">
+          <Skeleton className="h-[140px] bg-(--neutral-gray) shadow-md p-2.5 border-1 border-(--neutral-gray) rounded-[5px]" />
         </div>
       ) : (
         <div className="flex flex-col items-center justify-center h-full">

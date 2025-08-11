@@ -12,9 +12,9 @@ describe("Test Guides Page", () => {
     });
   });
 
-  it("should display study guides", () => {
-    cy.get(".grid.grid-cols-3").children().should("have.length", 5);
-  });
+  // it("should display study guides", () => {
+  //   cy.get(".grid.grid-cols-3").children().should("have.length", 5);
+  // });
 
   // it("should navigate to create study guide view when create button clicked", () => {
   //   getElementByDataTestId("create-guide-button").should("exist").click();

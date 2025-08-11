@@ -6,7 +6,7 @@ import { Search, ListFilter } from "lucide-react";
 import Select from "../general/Select";
 import { SELECT_OPTIONS } from "@/data/dummyData";
 import QuestionsTableItem from "./QuestionsTableItem";
-import { Question } from "@/types/general";
+import { Question } from "@/types";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteDoc, doc } from "firebase/firestore";
