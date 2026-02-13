@@ -1,17 +1,39 @@
+import * as React from "react";
+import { EyeOff, Eye } from "lucide-react";
 
+interface Input {
+  postIcon?: React.ReactNode;
+  classNameAttr?: any;
+  onChange: () => void;
+  type?: React.HTMLInputTypeAttribute;
+  value: string;
+  placeHolder: string
+}
 
-import * as React from 'react';
-import { Search } from 'lucide-react';
+export default function Input({ postIcon, classNameAttr, onChange, value, type="text", placeHolder }: Input) {
 
-export default function InputAdornments() {
+const [showPassword, setShowPassword] = React.useState(false);
+
+const getPostIcon = () => {
+  if(postIcon) return postIcon
+  if(type === "password") {
+    return showPassword ? <EyeOff onClick={togglePasswordVisibility}/> : <Eye onClick={togglePasswordVisibility} />
+  }
+}
+const togglePasswordVisibility = () => {
+  setShowPassword(!showPassword)
+}
+
   return (
-         <div className="flex items-center gap-2 w-[45%] border-2 border-(--neutral-gray) rounded-[5px]">
-                   <Search className="text-(--black) dark:text-(--white) ml-2" />
-                   <input 
-                     type="text"
-                     placeholder="Search Question"
-                     className="text-lg text-(--black) dark:text-(--white) placeholder:text-(--dark-gray) selection:border-0 focus:outline-none focus:ring-0 caret-(--black) dark:caret-(--white) w-full p-2 hover:bg-(--neutral-gray)/60 transition-colors duration-200 rounded-[5px] focus:bg-(--neutral-gray)/60"
-                   />
-                 </div>
+    <div className="flex items-center gap-2 w-full rounded-[5px] relative">
+      <input
+        type={showPassword ? "text" : type}
+        placeholder={placeHolder}
+        className={`border-2 border-(--neutral-gray) focus:border-(--accent) focus:bg-(--light-gray) outline-none rounded-[5px] h-10.5 p-3 hover:bg-(--neutral-gray)/60 duration-200 w-full ${classNameAttr}`}
+      />
+      <div className="absolute right-3">
+      {getPostIcon()}
+      </div>
+    </div>
   );
 }

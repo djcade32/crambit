@@ -30,6 +30,28 @@ interface SignUpParams {
   password: string;
 }
 
+type Errors = {
+  name?: string;
+  email?: string;
+  password?: string;
+  retypePassword?: string;
+}
+
+type Touched = {
+  name?: string;
+  email?: string;
+  password?: string;
+  retypePassword?: string;
+}
+
+type FormValues = {
+  name: string;
+  email: string;
+  password: string;
+  retypePassword: string;
+}
+
+
 interface RouteParams {
   params: Promise<Record<string, string>>;
   searchParams: Promise<Record<string, string>>;
